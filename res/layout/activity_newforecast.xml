@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:progress="33" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center|top"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="Forecast Length"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="italic"
+        android:typeface="serif"
+        tools:ignore="HardcodedText" />
+
+    <RadioButton
+        android:id="@+id/RadioButton1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="1-Day Forecast"
+        tools:ignore="HardcodedText" />
+
+    <RadioButton
+        android:id="@+id/RadioButton2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="2-Day Forecast"
+        tools:ignore="HardcodedText" />
+
+    <RadioButton
+        android:id="@+id/RadioButton3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="3-Day Forecast"
+        tools:ignore="HardcodedText" />
+
+    <RadioButton
+        android:id="@+id/RadioButton4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="4-Day Forecast"
+        tools:ignore="HardcodedText" />
+
+    <RadioButton
+        android:id="@+id/radioButton5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:text="5-Day Forecast"
+        tools:ignore="HardcodedText" />
+
+    <Button
+        android:id="@+id/btnForecastNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="Next"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>

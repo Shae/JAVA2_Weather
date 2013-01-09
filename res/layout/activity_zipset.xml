@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ProgressBar
+        android:id="@+id/progressBar1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:progress="66" />
+
+    <TextView
+        android:id="@+id/ForeLocTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="Forecast Location"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="italic"
+        android:typeface="serif"
+        tools:ignore="HardcodedText" />
+
+    <EditText
+        android:id="@+id/editTextZip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:ems="10"
+        android:gravity="center_vertical|center_horizontal"
+        android:hint="Enter Zipcode"
+        android:inputType="number"
+        tools:ignore="HardcodedText" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/btnLocNext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        android:text="Next"
+        tools:ignore="HardcodedText" />
+
+</LinearLayout>
