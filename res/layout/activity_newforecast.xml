@@ -29,14 +29,20 @@
         android:textStyle="italic"
         android:typeface="serif"
         tools:ignore="HardcodedText" />
-
+    
+<RadioGroup 
+    android:id="@+id/radioGoupOpts"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
     <RadioButton
         android:id="@+id/RadioButton1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:text="1-Day Forecast"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText" 
+        android:checked="true"/>
+    
 
     <RadioButton
         android:id="@+id/RadioButton2"
@@ -69,6 +75,7 @@
         android:layout_margin="5dp"
         android:text="5-Day Forecast"
         tools:ignore="HardcodedText" />
+</RadioGroup>
 
     <Button
         android:id="@+id/btnForecastNext"

@@ -41,6 +41,13 @@
             android:name=".ZipSet"
         >
         </activity>
+        
+<!--  WEB ACTIVITY -->
+        <activity 
+            android:name=".Web"
+        >
+        </activity>
+        
     </application>
 
 </manifest>

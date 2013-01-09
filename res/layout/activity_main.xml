@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
+    android:gravity="bottom"
     tools:context=".MainActivity" >
 
     <Button
         android:id="@+id/btnNew"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
         android:layout_marginBottom="157dp"
         android:text="New Forecast Data"
         tools:ignore="HardcodedText" />
@@ -19,8 +19,8 @@
         android:id="@+id/btnHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/btnNew"
         android:layout_alignTop="@+id/btnNew"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp"
         android:text="Pull Forecast History"
         tools:ignore="HardcodedText" />
@@ -29,10 +29,34 @@
         android:id="@+id/btnWeb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/btnNew"
         android:layout_below="@+id/btnHistory"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
         android:text="Weather Webpage"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/textViewZip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="86dp"
+        android:text="Small Text"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/textViewDays"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/textViewZip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="38dp"
+        android:text="Small Text"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         tools:ignore="HardcodedText" />
 
 </RelativeLayout>
