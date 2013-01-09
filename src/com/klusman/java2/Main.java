@@ -1,5 +1,6 @@
 package com.klusman.java2;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -44,6 +45,7 @@ public class Main extends Activity {
 		zipcode.setText(zipLocation);
 		//length.refreshDrawableState();
 		}
+		
 // NEW FORECAST BUTTON
 		Button btnNEW = (Button) findViewById(R.id.btnNew);
 		btnNEW.setOnClickListener(new OnClickListener() {
@@ -60,12 +62,16 @@ public class Main extends Activity {
 		
 // WEB BUTTON
 		Button btnWEB = (Button) findViewById(R.id.btnWeb);
+		final String url = "http://www.worldweatheronline.com/country.aspx";
 		btnWEB.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-			constructionToast();
-
+			//constructionToast();
+				
+				// Build Intent for web browser
+				Intent next = new Intent(Intent.ACTION_VIEW, Uri.parse(url) );
+				startActivity(next);
 			}
 		});
 
