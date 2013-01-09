@@ -30,20 +30,18 @@ public class Main extends Activity {
 		if (extras != null) {
 			forecastLength = extras.getString("Length");
 			zipLocation = extras.getString("Zip");
-		    constructionToast();
+		   // constructionToast();
 		    
 		}
 		
 		TextView length = (TextView) findViewById(R.id.textViewDays);
 		if(forecastLength != ""){
 		length.setText(forecastLength);
-		//length.refreshDrawableState();
 		}
 		
 		TextView zipcode = (TextView) findViewById(R.id.textViewZip);
 		if(zipLocation != ""){
 		zipcode.setText(zipLocation);
-		//length.refreshDrawableState();
 		}
 		
 // NEW FORECAST BUTTON
@@ -54,7 +52,7 @@ public class Main extends Activity {
 			public void onClick(View v) {
 				// Prep Intent and send test data
 				Intent next = new Intent(Main.this, NewForecast.class);
-				next.putExtra("MainIntent","TEST");  // Test Data
+				//next.putExtra("MainIntent","TEST");  // Test Data
 				startActivity(next);
 			}
 		});
@@ -91,7 +89,7 @@ public class Main extends Activity {
 
 	
 	public void constructionToast(){
-		CharSequence text = "Currently Under construction!";
+		CharSequence text = "Currently Under Construction!";
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(Main.this, text, duration);
 		toast.setGravity(Gravity.CENTER, 0, 0);

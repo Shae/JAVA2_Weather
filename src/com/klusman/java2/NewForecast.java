@@ -27,7 +27,7 @@ public class NewForecast extends Activity{
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 		    value = extras.getString("MainIntent");
-		    constructionToast();
+		    //constructionToast();
 		    
 		}
 		

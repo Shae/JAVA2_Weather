@@ -22,9 +22,7 @@ public class ZipSet extends Activity {
 		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-		    choice = extras.getString("ForecastLength");
-		    constructionToast();
-		    
+		    choice = extras.getString("ForecastLength");		    
 		}
 		
 		final EditText et = (EditText) findViewById(R.id.editTextZip);
