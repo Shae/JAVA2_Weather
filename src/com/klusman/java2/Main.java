@@ -26,14 +26,26 @@ public class Main extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+
+		
+		displayData();
+		testViewData();
+		buildPageSetup();  
+
+		
+	} // end onCreate
+	
+	public void testViewData(){
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			forecastLength = extras.getString("Length");
 			zipLocation = extras.getString("Zip");
-		   // constructionToast();
+		    displayData();
 		    
 		}
-		
+	}
+	
+	public void displayData(){
 		TextView length = (TextView) findViewById(R.id.textViewDays);
 		if(forecastLength != ""){
 		length.setText(forecastLength);
@@ -43,50 +55,50 @@ public class Main extends Activity {
 		if(zipLocation != ""){
 		zipcode.setText(zipLocation);
 		}
-		
-// NEW FORECAST BUTTON
-		Button btnNEW = (Button) findViewById(R.id.btnNew);
-		btnNEW.setOnClickListener(new OnClickListener() {
+	}
+	
+	
+	public void buildPageSetup(){
+		// NEW FORECAST BUTTON
+				Button btnNEW = (Button) findViewById(R.id.btnNew);
+				btnNEW.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				// Prep Intent and send test data
-				Intent next = new Intent(Main.this, NewForecast.class);
-				//next.putExtra("MainIntent","TEST");  // Test Data
-				startActivity(next);
-			}
-		});
-		
-		
-// WEB BUTTON
-		Button btnWEB = (Button) findViewById(R.id.btnWeb);
-		final String url = "http://www.worldweatheronline.com/country.aspx";
-		btnWEB.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-			//constructionToast();
+					@Override
+					public void onClick(View v) {
+						// Prep Intent and send test data
+						Intent next = new Intent(Main.this, NewForecast.class);
+						//next.putExtra("MainIntent","TEST");  // Test Data
+						startActivity(next);
+					}
+				});
 				
-				// Build Intent for web browser
-				Intent next = new Intent(Intent.ACTION_VIEW, Uri.parse(url) );
-				startActivity(next);
-			}
-		});
+				
+		// WEB BUTTON
+				Button btnWEB = (Button) findViewById(R.id.btnWeb);
+				final String url = "http://www.worldweatheronline.com/country.aspx";
+				btnWEB.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+					//constructionToast();
+						
+						// Build Intent for web browser
+						Intent next = new Intent(Intent.ACTION_VIEW, Uri.parse(url) );
+						startActivity(next);
+					}
+				});
 
 
-// HISTORY BUTTON
-		Button btnHIST = (Button) findViewById(R.id.btnHistory);
-		btnHIST.setOnClickListener(new OnClickListener() {
+		// HISTORY BUTTON
+				Button btnHIST = (Button) findViewById(R.id.btnHistory);
+				btnHIST.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				constructionToast();
-			}
-		});
-
-		
-	} // end onCreate
-
+					@Override
+					public void onClick(View v) {
+						constructionToast();
+					}
+				});
+	}
 	
 	public void constructionToast(){
 		CharSequence text = "Currently Under Construction!";
