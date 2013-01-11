@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 public class NewForecast extends Activity{
 	
-	String value;
+	String zipp;
 	String choice = "5";
 	private RadioGroup radioGroup;
 	private RadioButton radioButton;
@@ -26,7 +26,7 @@ public class NewForecast extends Activity{
 
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-		    value = extras.getString("MainIntent");
+		    zipp = extras.getString("ZipPass");
 		    //constructionToast();
 		    
 		}
@@ -49,7 +49,8 @@ public class NewForecast extends Activity{
 		        choice = radioButton.getText().toString();
  
 				Intent next = new Intent(NewForecast.this, ZipSet.class);
-				next.putExtra("ForecastLength", choice);  // Test Data
+				next.putExtra("ForecastLength", choice);  // Pass Forecast Radio Selection
+				next.putExtra("Zippp", zipp);  // Pass Current Zip
 				startActivity(next);
 
 			}
@@ -59,7 +60,7 @@ public class NewForecast extends Activity{
 	
 	
 	public void constructionToast(){
-		CharSequence text = value;
+		CharSequence text = zipp;
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(NewForecast.this, text, duration);
 		toast.setGravity(Gravity.CENTER, 0, 0);

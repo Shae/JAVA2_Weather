@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -12,7 +13,8 @@
         android:paddingBottom="20dp"
         android:paddingTop="20dp"
         android:text="Selected Date"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/textView2"
@@ -23,7 +25,8 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:text="Temp (High)"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/textView3"
@@ -34,7 +37,8 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:text="Temp (Low)"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/textView4"
@@ -45,7 +49,8 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:text="Windspeed"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/textView5"
@@ -56,7 +61,8 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:text="More info"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/TextView01"
@@ -67,7 +73,8 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:text="More info"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/TextView02"
@@ -78,7 +85,8 @@
         android:paddingRight="5dp"
         android:paddingTop="5dp"
         android:text="More info"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/button1"
@@ -86,6 +94,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:text="Back" />
+        android:text="Back"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

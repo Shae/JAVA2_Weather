@@ -12,7 +12,8 @@ import android.widget.Toast;
 
 public class ZipSet extends Activity {
 	String choice;
-	String zip;
+	String enteredZip;
+	String currentZip;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -22,10 +23,12 @@ public class ZipSet extends Activity {
 		
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
-		    choice = extras.getString("ForecastLength");		    
+		    choice = extras.getString("ForecastLength");	
+		    currentZip = extras.getString("Zippp");
 		}
 		
 		final EditText et = (EditText) findViewById(R.id.editTextZip);
+		et.setText(currentZip); // Pre-Set Current Zip Code and Default Entry
 		
 		Button btnNext = (Button) findViewById(R.id.btnLocNext);
 		btnNext.setOnClickListener(new OnClickListener() {
@@ -33,10 +36,10 @@ public class ZipSet extends Activity {
 			@Override
 			public void onClick(View v) {
 				// Prep Intent and send test data
-				zip = et.getText().toString();
+				enteredZip = et.getText().toString();
 				Intent next = new Intent(ZipSet.this, Main.class);
 				next.putExtra("Length", choice);  // Test Data
-				next.putExtra("Zip", zip);  // Test Data
+				next.putExtra("Zip", enteredZip);  // Test Data
 				startActivity(next);
 			}
 		});
