@@ -18,4 +18,5 @@
         <string name="new_forecast_btn_title">New Forecast Data</string>
         <string name="pull_forecast_history_btn_title">Pull Forecast History</string>
         <string name="weather_webpage_btn_title">Weather Webpage</string>
+        <string name="default_text">Small Text</string>
 </resources>

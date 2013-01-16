@@ -3,6 +3,9 @@ package com.klusman.java2;
 
 import java.util.List;
 
+
+import com.klusman.java2.DefaultDetailsFrag.DefaultDetailsListener;
+
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -22,7 +25,7 @@ import android.widget.Toast;
 
 
 
-public class Main extends Activity implements ButtonFrag.FormListener{
+public class Main extends Activity implements ButtonFrag.FormListener, DefaultDetailsListener{
 
 	String forecastLength;
 	String zipLocation;
@@ -31,7 +34,7 @@ public class Main extends Activity implements ButtonFrag.FormListener{
 
 
 
-	// For TEXT STUFF up top until weather data is entered
+
 	public void testViewData(){  // Test for Bundles
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -43,16 +46,20 @@ public class Main extends Activity implements ButtonFrag.FormListener{
 
 	public void displayData(){
 		TextView length = (TextView) findViewById(R.id.textViewDays);
-		if(forecastLength != ""){
-			length.setText(forecastLength);
+		
+		length.setText(forecastLength);
+		
+		if (currentZip == null){
+			findZip();
 		}
 
 		TextView zipcode = (TextView) findViewById(R.id.textViewZip);
+		
 		if(zipLocation != ""){
 			zipcode.setText(zipLocation);
 		}
-	}
-	// END TEXT STUFF
+	
+	}	
 
 
 	public void buildPageSetup(){
@@ -109,6 +116,8 @@ public class Main extends Activity implements ButtonFrag.FormListener{
 
 	} // end findZip 
 
+	
+	
 	/*	////////////// FUTURE IDEAS  //////////////
 
 	// Under Construction
@@ -125,17 +134,14 @@ public class Main extends Activity implements ButtonFrag.FormListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Log.i("STEP", "1");
-		setContentView(R.layout.button_frag);
-/*
-		displayData(); // Display default data, if any.
+		setContentView(R.layout.main_act);
+
+		//displayData(); // Display default data, if any.
 		testViewData();  // Test for Bundles and update data if any
 		buildPageSetup();  //  build buttons
 
-		if (currentZip == null){
-			findZip();
-		}
-		*/
+
+		
 
 	} // end onCreate
 
@@ -161,6 +167,23 @@ public class Main extends Activity implements ButtonFrag.FormListener{
 		next.putExtra("ZipPass", currentZip);  // Pass Current Zip Location
 		startActivity(next);
 	}
+
+	
+	
+	@Override
+	public void onFirstOpen() {
+
+
+
+		
+	}
+
+	@Override
+	public void onSetText() {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }
 

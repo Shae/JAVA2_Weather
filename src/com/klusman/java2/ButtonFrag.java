@@ -28,9 +28,8 @@ public class ButtonFrag extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 		super.onCreateView(inflater, container, savedInstanceState);
-		Log.i("STEP", "2");
 		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.btn_act, container, false);
-		Log.i("STEP", "3");
+		
 		// NEW FORECAST BUTTON
 		Button btnNEW = (Button) view.findViewById(R.id.btnNew);
 		
