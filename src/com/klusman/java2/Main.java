@@ -30,10 +30,11 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	String forecastLength;
 	String zipLocation;
 	String currentZip;
+	Boolean connected = false;
 
 
 
-
+	
 
 	public void testViewData(){  // Test for Bundles
 		Bundle extras = getIntent().getExtras();
@@ -62,10 +63,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	}	
 
 
-	public void buildPageSetup(){
-
-	}
-
 	public void constructionToast(){
 		CharSequence text = "Currently Under Construction!";
 		int duration = Toast.LENGTH_SHORT;
@@ -83,7 +80,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 	public void findZip(){
 		LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
+		
 		if(lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){  // Check for GPS
 			Location loc = lm.getLastKnownLocation("gps");
 			Geocoder geo = new Geocoder(this);
@@ -129,16 +126,25 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 	}// end displayWeatherList
 	 */
-
+	public void checkConnection(){
+		if (connected  == true){
+			Log.i("NETWORK STATUS", "CONNECTED TO WEB");
+			Log.i("NETWORK STATUS", com.klusman.java2.webStuff.getConnectionType(this));
+			findZip();
+		}else{
+			currentZip = "";
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_act);
-
-		//displayData(); // Display default data, if any.
+		connected = com.klusman.java2.webStuff.getConnectionStatus(this);
+		checkConnection();
+		displayData(); // Display default data, if any.
 		testViewData();  // Test for Bundles and update data if any
-		buildPageSetup();  //  build buttons
+
 
 
 		

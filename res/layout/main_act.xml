@@ -11,6 +11,7 @@
     android:id="@+id/def_frag"
     android:name= "com.klusman.java2.DefaultDetailsFrag"
     android:layout_weight="30"
+    android:layout_gravity="center_vertical"
     
     />
 <fragment 
@@ -20,6 +21,7 @@
     android:id="@+id/button_frag"
     android:name= "com.klusman.java2.ButtonFrag"
     android:layout_weight="70"
+    android:layout_gravity="center_vertical"
     />
 
 
