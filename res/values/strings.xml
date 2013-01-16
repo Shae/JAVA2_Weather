@@ -13,4 +13,9 @@
         <item>4-Day Forecast</item>
         <item>5-Day Forecast</item>
     </string-array>
+        <string name="temp_high">Temp (High)</string>
+        <string name="temp_low">Temp (Low)</string>
+        <string name="new_forecast_btn_title">New Forecast Data</string>
+        <string name="pull_forecast_history_btn_title">Pull Forecast History</string>
+        <string name="weather_webpage_btn_title">Weather Webpage</string>
 </resources>

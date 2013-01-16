@@ -30,8 +30,9 @@ public final class R {
         public static final int btnNew=0x7f080008;
         public static final int btnWeb=0x7f08000a;
         public static final int button1=0x7f080007;
+        public static final int button_frag=0x7f080019;
         public static final int editTextZip=0x7f080017;
-        public static final int menu_settings=0x7f080019;
+        public static final int menu_settings=0x7f08001b;
         public static final int progressBar1=0x7f08000d;
         public static final int radioButton5=0x7f080014;
         public static final int radioGoupOpts=0x7f08000f;
@@ -43,12 +44,16 @@ public final class R {
         public static final int textViewDays=0x7f08000c;
         public static final int textViewName=0x7f080000;
         public static final int textViewZip=0x7f08000b;
+        public static final int wthr_data_frag=0x7f08001a;
     }
     public static final class layout {
         public static final int activity_details=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int activity_newforecast=0x7f030002;
         public static final int activity_zipset=0x7f030003;
+        public static final int btn_act=0x7f030004;
+        public static final int button_frag=0x7f030005;
+        public static final int weather_data_frag=0x7f030006;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;
@@ -58,6 +63,11 @@ public final class R {
         public static final int button=0x7f040003;
         public static final int hello_world=0x7f040001;
         public static final int menu_settings=0x7f040002;
+        public static final int new_forecast_btn_title=0x7f040006;
+        public static final int pull_forecast_history_btn_title=0x7f040007;
+        public static final int temp_high=0x7f040004;
+        public static final int temp_low=0x7f040005;
+        public static final int weather_webpage_btn_title=0x7f040008;
     }
     public static final class style {
         /** 
