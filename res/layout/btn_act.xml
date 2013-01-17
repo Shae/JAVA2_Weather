@@ -3,27 +3,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:background="#000000"
+          >
+    
     
 	<Button
         android:id="@+id/btnNew"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/new_forecast_btn_title"
+   		android:shadowColor="#FFFFFF"
+   		android:shadowRadius="6"
+    	android:shadowDx="0"
+    	android:shadowDy="0"
+    	android:textStyle="bold"
         />
 
 	<Button
         android:id="@+id/btnHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/pull_forecast_history_btn_title"/>
+        android:text="@string/pull_forecast_history_btn_title"
+        android:shadowColor="#FFFFFF"
+    	android:shadowRadius="6"
+    	android:shadowDx="0"
+    	android:shadowDy="0"
+    	android:textStyle="bold"/>
 
 
     <Button
         android:id="@+id/btnWeb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/weather_webpage_btn_title"/>
+        android:text="@string/weather_webpage_btn_title"
+        android:shadowColor="#FFFFFF"
+    	android:shadowRadius="6"
+    	android:shadowDx="0"
+    	android:shadowDy="0"
+    	android:textStyle="bold"/>
 
 
 

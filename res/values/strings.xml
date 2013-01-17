@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">The Weather</string>
+    <string name="app_name">The Weather (JAVA2)</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="button">More Info</string>
@@ -18,5 +18,7 @@
         <string name="new_forecast_btn_title">New Forecast Data</string>
         <string name="pull_forecast_history_btn_title">Pull Forecast History</string>
         <string name="weather_webpage_btn_title">Weather Webpage</string>
-        <string name="default_text">Small Text</string>
+        <string name="default_text">Default Text</string>
+        <string name="for_weather_icon_description">For Weather Icon</string>
+        <string name="what_will_be">NOTE: This is where the forecast views will go for the week 3 API pulls.</string>
 </resources>

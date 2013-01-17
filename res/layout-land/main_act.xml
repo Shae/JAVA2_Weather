@@ -5,22 +5,22 @@
     android:orientation="horizontal" >
     
     <fragment 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_gravity="center_vertical"
-    android:id="@+id/def_frag"
-    android:name= "com.klusman.java2.DefaultDetailsFrag"
-    android:layout_weight="40"
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="0dp"
+	    android:layout_height="match_parent"
+	    android:layout_gravity="center_vertical"
+	    android:id="@+id/def_frag"
+	    android:name= "com.klusman.java2.DefaultDetailsFrag"
+	    android:layout_weight="60"
     />
-<fragment 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/button_frag"
-    android:name= "com.klusman.java2.ButtonFrag"
-    android:layout_weight="60"
-    android:layout_gravity="center_vertical"
+	<fragment 
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="0dp"
+	    android:layout_height="match_parent"
+	    android:id="@+id/button_frag"
+	    android:name= "com.klusman.java2.ButtonFrag"
+	    android:layout_weight="40"
+	    android:layout_gravity="center_vertical"
     />
 
 

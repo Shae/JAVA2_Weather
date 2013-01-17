@@ -5,23 +5,38 @@
     android:orientation="vertical" >
     
     <fragment 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/def_frag"
-    android:name= "com.klusman.java2.DefaultDetailsFrag"
-    android:layout_weight="30"
-    android:layout_gravity="center_vertical"
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:id="@+id/def_frag"
+	    android:name= "com.klusman.java2.DefaultDetailsFrag"
+	    android:layout_weight="70"
+	    android:layout_gravity="center_vertical"
     
     />
-<fragment 
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/button_frag"
-    android:name= "com.klusman.java2.ButtonFrag"
-    android:layout_weight="70"
-    android:layout_gravity="center_vertical"
+    
+      <!-- *** PREBUILD TEST SPACE for the ListView for Week 3***  -->
+<!--  
+	<fragment 
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:id="@+id/tile_frag"
+	    android:name= "com.klusman.java2.ListViewFrag"
+	    android:layout_weight="1"
+	    android:layout_gravity="center_vertical"
+	    
+	 />  -->
+	 
+	 
+	<fragment 
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="match_parent"
+	    android:layout_height="0dp"
+	    android:id="@+id/button_frag"
+	    android:name= "com.klusman.java2.ButtonFrag"
+	    android:layout_weight="30"
+	    android:layout_gravity="center_vertical"
     />
 
 

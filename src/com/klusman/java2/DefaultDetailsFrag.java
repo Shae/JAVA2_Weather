@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 
 public class DefaultDetailsFrag extends Fragment {
 
+	@SuppressWarnings("unused")
 	private DefaultDetailsListener listener;
 	public String zipCheck;
 
@@ -33,7 +34,9 @@ public class DefaultDetailsFrag extends Fragment {
 
 		return view;
 	}
-	@Override
+	
+	
+	@Override           //Listener built in case it will be needed
 	public void onAttach(Activity activity){
 		super.onAttach(activity);
 		try {

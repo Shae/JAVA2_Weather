@@ -3,8 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:orientation="vertical" >
-    
+    android:orientation="vertical" 
+    android:background="#000000"
+    >
+        <TextView
+        android:id="@+id/WhatIsToBe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#11CCFF"
+        android:text="@string/what_will_be"
+        android:layout_gravity="top"
+        android:gravity="center"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        />
+        
     <TextView
         android:id="@+id/textViewZip"
         android:layout_width="match_parent"
@@ -12,7 +24,8 @@
         android:layout_marginTop="86dp"
         android:text="@string/default_text"
         android:layout_gravity="center"
-                android:gravity="center"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
         android:textAppearance="?android:attr/textAppearanceSmall"
         />
 
@@ -20,10 +33,11 @@
         android:id="@+id/textViewDays"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="38dp"
+        
         android:text="@string/default_text"
         android:layout_gravity="center"
-                android:gravity="center"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
         android:textAppearance="?android:attr/textAppearanceSmall"
          />
 </LinearLayout>
