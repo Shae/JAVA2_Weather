@@ -38,9 +38,9 @@ public final class R {
         public static final int editTextZip=0x7f080015;
         public static final int list=0x7f080020;
         public static final int list_image=0x7f080019;
-        public static final int menu_service_go=0x7f080024;
-        public static final int menu_service_stop=0x7f080025;
+        public static final int menu_pull_weather=0x7f080024;
         public static final int menu_settings=0x7f080023;
+        public static final int menu_test_service=0x7f080025;
         public static final int progressBar1=0x7f08000b;
         public static final int radioButton5=0x7f080012;
         public static final int radioGoupOpts=0x7f08000d;

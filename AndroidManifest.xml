@@ -33,8 +33,18 @@
             
         </activity>
         
+        
+        <receiver
+			android:name=".NetworkBroadcastRec">
+			<intent-filter>
+				<action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+				
+			</intent-filter>
+		</receiver>
+        
 <!--  UPDATER SERVICE -->
         <service android:name="UpdaterService"/>
+         <service android:name="ServiceAction"/>
         
 <!--  DETAIL ACTIVITY -->
         <activity android:name="com.klusman.java2.ForecastDetails"/>

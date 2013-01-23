@@ -19,6 +19,8 @@ public class UpdaterService extends IntentService {
 	    Toast.makeText(this, TAG, Toast.LENGTH_SHORT).show();
 	    return super.onStartCommand(intent,flags,startId);
 	}
+	
+	
 
 	@Override
 	protected void onHandleIntent(Intent intent) {

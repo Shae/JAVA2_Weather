@@ -17,13 +17,16 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -39,19 +42,20 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 
 
-	String forecastLength;
-	String zipLocation;
-	String currentZip;
-	Boolean connected = false;
-	JSONArray resultsArrayW;
-	Context _context = this;
-	HashMap<String,	String> _history;
-	int daySpan = 1;
+	String forecastLength = "1-Day Forecast";  // Holds the forecast Length String (default 1)
+	String zipLocation;  //  Holds a passed in zip code Location
+	String currentZip;  // Holds the Mobile devices Current Zip Location
+	Boolean connected = false;  // Holds the flag for connected or not
+	JSONArray resultsArrayW;  // Holds the JSON array from the API Pull
+	Context _context = this;  // Holds the Context
+	HashMap<String,	String> _history;  // Holds the Hashmap results
+	int daySpan = 1;  // Holds the int version of the forecast length requested (default 1)
 
 
 
 	
 
+//// LOCAL METHODS	
 	public void testViewData(){  // Test for Bundles
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
@@ -61,7 +65,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		}
 	}
 
-	public void displayData(){
+	public void displayData(){  // Get Data for TextViews 
 		TextView length = (TextView) findViewById(R.id.textViewDays);
 		
 		length.setText(forecastLength);
@@ -78,7 +82,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	
 	}	
 	
-	public void myToast(String text){
+	public void myToast(String text){  // Toast Template
 		CharSequence textIN = text;
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(Main.this, textIN, duration);
@@ -86,23 +90,17 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		toast.show();
 	};// end myToast
 	
-	@Override
-	public boolean onMenuItemSelected(int featureId, MenuItem item) {
-		switch (item.getItemId()){
-			case R.id.menu_service_go:
-				myToast("Go Go Go!");
-				//startService(new Intent(this, UpdaterService.class));
-				getWeatherData();
-				break;
-			case R.id.menu_service_stop:
-				myToast("Pause Service!");
-				//stopService(new Intent(this, UpdaterService.class));
-				break;
+	public void checkConnection(){  // Check Connection before attempting zip or API pull
+		if (connected  == true){
+			Log.i("NETWORK STATUS", "CONNECTED TO WEB");
+			Log.i("NETWORK STATUS", com.klusman.java2.webStuff.getConnectionType(this));
+			findZip();
+		}else{
+			currentZip = "";
 		}
-		return super.onMenuItemSelected(featureId, item);
 	}
 
-	public void findZip(){
+	public void findZip(){ // Find zip code for API Pull and default text field entry
 		LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		
 		if(lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){  // Check for GPS
@@ -137,37 +135,14 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 	} // end findZip 
 
-	
-	
-	/*	////////////// FUTURE IDEAS  //////////////
-
-	// Under Construction
-	public void displayCurrent(){  // To Display the current weather as default
-
-	}// end displayCurrent
-
-	public void displayWeatherList(){ // To display the forecast chosen if requested
-
-	}// end displayWeatherList
-	 */
-	
-//	BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
-//
-//	    @Override
-//	    public void onReceive(Context context, Intent intent) {
-//	        Log.w("Network Listener", "Network Type Changed");
-//	    }
-//	};
-	public String forecastLengthPull(){
-		
-		Log.i("CHOICE", forecastLength);
+	public String forecastLengthPull(){  // Get length for API Pull
 		
 		String days = "1";
 		
-		if(forecastLength .compareTo("1-Day Forecast") == 0){
+		if(forecastLength.compareTo("1-Day Forecast") == 0){
 			days = "1";
 		}
-		if(forecastLength .compareTo("2-Day Forecast") == 0){
+		if(forecastLength.compareTo("2-Day Forecast") == 0){
 			days = "2";
 		}
 		if(forecastLength.compareTo("3-Day Forecast") == 0){
@@ -179,27 +154,41 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		if(forecastLength.compareTo("5-Day Forecast") == 0){
 			days = "5";
 		} 
-		
+		else{
+			days = "1";
+		}
 		return days;
 		
 	}
 	
-	public void checkConnection(){
-		if (connected  == true){
-			Log.i("NETWORK STATUS", "CONNECTED TO WEB");
-			Log.i("NETWORK STATUS", com.klusman.java2.webStuff.getConnectionType(this));
-			findZip();
-		}else{
-			currentZip = "";
-		}
-	}
-
-	public void runService(){
+	
+//// SERVICE Starters & Stoppers
+	public void runUpdaterService(){  //  to Run the "UpdaterService" Service
 		Intent intent = new Intent(this, UpdaterService.class);
 		startService(intent);
 		
 	}
 	
+	public void stopUpdaterService(){  //  to Run the "UpdaterService" Service
+		Intent intent = new Intent(this, UpdaterService.class);
+		stopService(intent);
+		
+	}
+	
+	public void runServiceAction(){  // to run the "ServiceAction" Service
+		Intent intent = new Intent(this, ServiceAction.class);
+		startService(intent);
+		
+	}
+	
+	public void stopServiceAction(){  // to run the "ServiceAction" Service
+		Intent intent = new Intent(this, ServiceAction.class);
+		stopService(intent);
+		
+	}
+
+	
+//// ON CREATE 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -208,12 +197,14 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		checkConnection();
 		displayData(); // Display default data, if any.
 		testViewData();  // Test for Bundles and update data if any
-
+		_history = getStoredHist();
 		//runService();
 
 
 	} // end onCreate
 
+	
+////  OPTIONS MENU  
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -221,20 +212,24 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		return true;
 	}// end onCreateOptionsMenu
 	
+	@Override
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()){
+			case R.id.menu_pull_weather:
+				myToast("Pulling API Data!");
+				//startService(new Intent(this, UpdaterService.class));
+				getWeatherData();
+				break;
+			case R.id.menu_test_service:
+				myToast("Service Test Placeholder!");
+				//stopService(new Intent(this, UpdaterService.class));
+				break;
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}
+
 	
-//	private Handler messageHandler = new Handler(){
-//		public void handleMessage(Message message){
-//			//HANDLER CODE BODY
-//		}
-//	};
-	
-	
-//	Messenger messenger = new Messenger(messageHandler);
-//	Intent myIntent = new Intent(getApplicationContext(), Intent.class);
-//	myIntent.putExtra("messenger", messenger);
-	
-	
-		
+//// BUTTON HANDLERS
 	@Override
 	public void onWebClick() {
 		//constructionToast();
@@ -257,7 +252,9 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		next.putExtra("ZipPass", currentZip);  // Pass Current Zip Location
 		startActivity(next);
 	}
+
 	
+//// IMPLEMENT LISTENERS
 	@Override
 	public void onFirstOpen() {
 
@@ -273,8 +270,22 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	}
 
 	
+//// GET API DATA
+	@SuppressWarnings("unchecked")
+	private HashMap<String, String> getStoredHist(){
+		Object stored = ReadStuff.readObjectFile(_context, "saveDataObj", false);
+		
+		HashMap<String, String> myStoredData;
+		if(stored == null){
+			Log.i("READ DATA", "NO PAST DATA SAVED");
+			myStoredData = new HashMap<String, String>();
+		}else{
+			myStoredData = (HashMap<String, String>) stored;
+		}
+		return myStoredData;
+	}
 	
-	private void getWeatherData(){
+	private void getWeatherData(){  // Pulled from Java1 project
 		//String dayString = String.valueOf(daySpan);  // int to string
 		String daysREQd = forecastLengthPull();
 		String zipCode = currentZip;  //Pull ZipCode from global values
@@ -304,7 +315,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		}
 
 	}
-
 	
 	private class weatherRequest extends AsyncTask<URL, Void, String>{
 
@@ -336,10 +346,11 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 					toast.show();
 
 				}else{
-					Toast toast = Toast.makeText(_context, "REQUEST RECEIVED!" + String.valueOf(arrayLength), Toast.LENGTH_SHORT);
+					Toast toast = Toast.makeText(_context, String.valueOf(arrayLength) + " day(s) requested data received!", Toast.LENGTH_SHORT);
 					toast.show();
-					//lineBuild(_context);
-					//_history.put("WeatherSave", results.toString());
+					Log.i("ArrayLength", String.valueOf(resultsArrayW.length()));
+					//lineBuild(_context); // call the build 
+					_history.put("WeatherSave", results.toString());
 					SaveStuff.storeObjectFile(_context, "saveDataObj", _history, false);  // save local as JSON obj string
 					//SaveStuff.storeStringFile(_context, "saveDataString", results.toString(), false);
 				}
@@ -349,5 +360,33 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 		}
 	}
+
+	
+//// BROADCAST RECEIVERS
+	BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
+
+	    @Override
+	    public void onReceive(Context context, Intent intent) {
+	        Log.w("Network Listener", "Network Type Changed");
+	        
+	    }
+	};
+	
+	
+	
+	
+//	private Handler messageHandler = new Handler(){
+//		public void handleMessage(Message message){
+//			//HANDLER CODE BODY
+//		}
+//	};
+	
+	
+//	Messenger messenger = new Messenger(messageHandler);
+//	Intent myIntent = new Intent(getApplicationContext(), Intent.class);
+//	myIntent.putExtra("messenger", messenger);
+	
+	
+
 }
 
