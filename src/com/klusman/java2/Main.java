@@ -126,6 +126,8 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 	}// end displayWeatherList
 	 */
+	
+	
 	public void checkConnection(){
 		if (connected  == true){
 			Log.i("NETWORK STATUS", "CONNECTED TO WEB");

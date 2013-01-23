@@ -27,27 +27,19 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <!--   <action android:name=".BrowserActivity" />  -->
             </intent-filter>
         </activity>
+<!--  UPDATER SERVICE -->
+        <service android:name="UpdaterService"/>
         
- <!--  DETAIL ACTIVITY -->
-        <activity 
-            android:name="com.klusman.java2.ForecastDetails"
-            >
-            
-        </activity>
+<!--  DETAIL ACTIVITY -->
+        <activity android:name="com.klusman.java2.ForecastDetails"/>
+        
 <!--  NEW FORECAST ACTIVITY -->
-        <activity 
-            android:name=".NewForecast"
-        >
-        </activity>
+        <activity android:name=".NewForecast"/>
           
 <!--  ZIP CODE ACTIVITY -->
-        <activity 
-            android:name=".ZipSet"
-        >
-        </activity>
+        <activity android:name=".ZipSet"/>
         
         
     </application>
