@@ -1,33 +1,28 @@
 package com.klusman.java2;
 
-import android.app.Service;
+import android.app.IntentService;
 import android.content.Intent;
-import android.os.IBinder;
-import android.util.Log;
+import android.widget.Toast;
 
-public class UpdaterService extends Service {
+public class UpdaterService extends IntentService {
 
 	private static final String TAG = UpdaterService.class.getSimpleName();
 	
+	public UpdaterService(String name) {
+		super("UpdaterService");
+		
+	}
+	
 	
 	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
+	public int onStartCommand(Intent intent, int flags, int startId) {
+	    Toast.makeText(this, TAG, Toast.LENGTH_SHORT).show();
+	    return super.onStartCommand(intent,flags,startId);
 	}
 
 	@Override
-	public void onCreate() {
-		super.onCreate();
-		Log.d(TAG, "Service Created");
+	protected void onHandleIntent(Intent intent) {
+		
 	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		Log.d(TAG, "Service Destroyed");
-	}
-
-
-	
 	
 }

@@ -5,5 +5,20 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/menu_settings"/>
+    
+    <item
+        android:id="@+id/menu_service_go"
+        android:orderInCategory="1"
+        android:title="Start Service"
+        android:showAsAction="ifRoom"/>
+        <!-- android:icon="@android:drawable/ic_media_play" -->
+   
+    
+    <item
+        android:id="@+id/menu_service_stop"
+        android:orderInCategory="2"
+        android:title="Stop Service"
+        android:showAsAction="ifRoom"/>
+        <!-- android:icon="@android:drawable/ic_media_pause" -->
 
 </menu>

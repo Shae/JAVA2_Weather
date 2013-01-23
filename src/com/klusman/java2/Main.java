@@ -1,8 +1,15 @@
 package com.klusman.java2;
 
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.klusman.java2.DefaultDetailsFrag.DefaultDetailsListener;
 
@@ -11,13 +18,16 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,10 +37,16 @@ import android.widget.Toast;
 
 public class Main extends Activity implements ButtonFrag.FormListener, DefaultDetailsListener{
 
+
+
 	String forecastLength;
 	String zipLocation;
 	String currentZip;
 	Boolean connected = false;
+	JSONArray resultsArrayW;
+	Context _context = this;
+	HashMap<String,	String> _history;
+	int daySpan = 1;
 
 
 
@@ -61,22 +77,30 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		}
 	
 	}	
-
-
-	public void constructionToast(){
-		CharSequence text = "Currently Under Construction!";
+	
+	public void myToast(String text){
+		CharSequence textIN = text;
 		int duration = Toast.LENGTH_SHORT;
-		Toast toast = Toast.makeText(Main.this, text, duration);
+		Toast toast = Toast.makeText(Main.this, textIN, duration);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
-	};// end constructionToast
-
+	};// end myToast
+	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_main, menu);
-		return true;
-	}// end onCreateOptionsMenu
+	public boolean onMenuItemSelected(int featureId, MenuItem item) {
+		switch (item.getItemId()){
+			case R.id.menu_service_go:
+				myToast("Go Go Go!");
+				//startService(new Intent(this, UpdaterService.class));
+				getWeatherData();
+				break;
+			case R.id.menu_service_stop:
+				myToast("Pause Service!");
+				//stopService(new Intent(this, UpdaterService.class));
+				break;
+		}
+		return super.onMenuItemSelected(featureId, item);
+	}
 
 	public void findZip(){
 		LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -127,6 +151,38 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	}// end displayWeatherList
 	 */
 	
+//	BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
+//
+//	    @Override
+//	    public void onReceive(Context context, Intent intent) {
+//	        Log.w("Network Listener", "Network Type Changed");
+//	    }
+//	};
+	public String forecastLengthPull(){
+		
+		Log.i("CHOICE", forecastLength);
+		
+		String days = "1";
+		
+		if(forecastLength .compareTo("1-Day Forecast") == 0){
+			days = "1";
+		}
+		if(forecastLength .compareTo("2-Day Forecast") == 0){
+			days = "2";
+		}
+		if(forecastLength.compareTo("3-Day Forecast") == 0){
+			days = "3";
+		}
+		if(forecastLength.compareTo("4-Day Forecast") == 0){
+			days = "4";
+		}
+		if(forecastLength.compareTo("5-Day Forecast") == 0){
+			days = "5";
+		} 
+		
+		return days;
+		
+	}
 	
 	public void checkConnection(){
 		if (connected  == true){
@@ -138,6 +194,12 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		}
 	}
 
+	public void runService(){
+		Intent intent = new Intent(this, UpdaterService.class);
+		startService(intent);
+		
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -147,12 +209,32 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		displayData(); // Display default data, if any.
 		testViewData();  // Test for Bundles and update data if any
 
+		//runService();
 
-
-		
 
 	} // end onCreate
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.activity_main, menu);
+		return true;
+	}// end onCreateOptionsMenu
+	
+	
+//	private Handler messageHandler = new Handler(){
+//		public void handleMessage(Message message){
+//			//HANDLER CODE BODY
+//		}
+//	};
+	
+	
+//	Messenger messenger = new Messenger(messageHandler);
+//	Intent myIntent = new Intent(getApplicationContext(), Intent.class);
+//	myIntent.putExtra("messenger", messenger);
+	
+	
+		
 	@Override
 	public void onWebClick() {
 		//constructionToast();
@@ -165,7 +247,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 	@Override
 	public void onHistClick() {
-		constructionToast();
+		myToast("Under Construction!");
 
 	}
 
@@ -175,8 +257,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		next.putExtra("ZipPass", currentZip);  // Pass Current Zip Location
 		startActivity(next);
 	}
-
-	
 	
 	@Override
 	public void onFirstOpen() {
@@ -192,6 +272,82 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		
 	}
 
+	
+	
+	private void getWeatherData(){
+		//String dayString = String.valueOf(daySpan);  // int to string
+		String daysREQd = forecastLengthPull();
+		String zipCode = currentZip;  //Pull ZipCode from global values
 
+		Log.i("DAYS TO GET", "Pull this many days: " + daysREQd );
+		// Concat http address
+		String messURL = "http://free.worldweatheronline.com/feed/weather.ashx?q=" + zipCode + "&format=json&num_of_days=" + daysREQd + "&key=2a0cc91795015022122811";
+		String qs;
+
+		try{
+			qs = URLEncoder.encode(messURL, "UTF-8");  //encode URL
+			Log.i("URL to CALL", qs);  // URL test LOG
+		} catch(Exception e){
+			Log.e("BAD URL", "Encoding Problem");
+			qs = "";
+		}
+		
+		URL finalURL;
+
+		try{
+			finalURL = new URL(messURL);  
+			weatherRequest myREQ = new weatherRequest();
+			myREQ.execute(finalURL);
+
+		} catch(MalformedURLException e){
+			Log.e("BAD URL", "URL Problem Final");
+		}
+
+	}
+
+	
+	private class weatherRequest extends AsyncTask<URL, Void, String>{
+
+
+		@Override
+		protected String doInBackground(URL... urls) {
+			String response = "";
+			for (URL url: urls){
+				response = WebConnections.getURLStringResponse(url);
+			}
+			return response;
+		}
+
+		
+		
+		@Override
+		protected void onPostExecute(String result){
+			Log.i("URL RESPONSE:", result);
+
+			try{
+				JSONObject json = new JSONObject(result);
+				JSONObject results = json.getJSONObject("data");
+				resultsArrayW = results.getJSONArray("weather");
+				int arrayLength = resultsArrayW.length();
+
+				if(resultsArrayW == null){
+					Log.i("JSON GET OBJ", "NOT VALID");
+					Toast toast = Toast.makeText(_context, "GET JSON FAILED", Toast.LENGTH_SHORT);
+					toast.show();
+
+				}else{
+					Toast toast = Toast.makeText(_context, "REQUEST RECEIVED!" + String.valueOf(arrayLength), Toast.LENGTH_SHORT);
+					toast.show();
+					//lineBuild(_context);
+					//_history.put("WeatherSave", results.toString());
+					SaveStuff.storeObjectFile(_context, "saveDataObj", _history, false);  // save local as JSON obj string
+					//SaveStuff.storeStringFile(_context, "saveDataString", results.toString(), false);
+				}
+			}catch (JSONException e){
+				Log.e("JSON ERROR", "JSON ERROR");
+			}
+
+		}
+	}
 }
 
