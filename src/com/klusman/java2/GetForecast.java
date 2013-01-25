@@ -23,6 +23,34 @@ public class GetForecast extends IntentService {
 	
 	private int _result;
 	String _response = null;
+	Messenger messenger;
+	
+	
+	
+	@Override
+	protected void onHandleIntent(Intent intent) {
+		Log.i("GET FORECAST", "TEST 2");
+		Bundle extras = intent.getExtras();
+		if (extras != null){
+			messenger = (Messenger) extras.get("MSNGR");
+			String myZip = (String) extras.get("item");
+			GetNewForecast(myZip);
+			
+			Message msg = Message.obtain();
+			msg.arg1 = _result;
+			msg.obj = _response;
+			
+			try {
+				messenger.send(msg);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				Log.i("MESSAGE ERROR", "onHandleIntent Message failed");
+				e.printStackTrace();
+				
+			}
+			
+		}
+	}
 	
 	public void GetNewForecast(String zip){
 		Log.i("GET FORECAST", "TEST 2");
@@ -42,26 +70,5 @@ public class GetForecast extends IntentService {
 		
 	}
 	
-	@Override
-	protected void onHandleIntent(Intent intent) {
-		Log.i("GET FORECAST", "TEST 2");
-		Bundle extras = intent.getExtras();
-		if (extras != null){
-			Messenger messenger = (Messenger) extras.get("MSNGR");
-	    	Message msg = Message.obtain();
-	    	msg.arg1 = _result;
-	    	msg.obj = _response;
-	    	
-	    	try {
-				messenger.send(msg);
-			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
-				Log.i("MESSAGE ERROR", "onHandleIntent Message failed");
-				e.printStackTrace();
-				
-			}
-	    	
-		}
-	}
 
 }

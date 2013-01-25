@@ -166,7 +166,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 			days = "5";
 		} 
 		else{
-			days = "1";
+			days = "5";
 		}
 		return days;
 		
@@ -328,7 +328,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	}
 
 	
-
+///////////  LEFT IN UNTIL I GET THE MESSAGE AND SERVICE WORKING CORRECTLY ///////////////////
 	private void getWeatherData(){  // Pulled from Java1 project
 		//String dayString = String.valueOf(daySpan);  // int to string
 		String daysREQd = forecastLengthPull();
@@ -404,6 +404,8 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 		}
 	}
+////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	private Handler myHandler = new Handler(){
 		
