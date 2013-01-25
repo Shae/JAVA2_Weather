@@ -9,14 +9,15 @@ import android.widget.Toast;
 public class NetworkBroadcastRec extends BroadcastReceiver {
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
-		myToast(context, "Pulling API Data!");
-		//context.startService(new Intent(context, UpdaterService.class));  // START SERVICE
+	public void onReceive(Context context, Intent intent) {  // Notifies when the power cord is plugged in
+		myToast(context, "POWER CORD CONNECTED!");  // WORKS
+		
+//        Intent i = new Intent(context, UpdaterService.class);  
+//        context.startActivity(i); 
 
 		
 	}
 
-	
 	public void myToast(Context context, String text){
 		CharSequence textIN = text;
 		int duration = Toast.LENGTH_SHORT;

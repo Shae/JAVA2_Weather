@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.klusman.java2.DefaultDetailsFrag.DefaultDetailsListener;
+import com.klusman.java2.ListViewFrag.ListViewFragListener;
 
 import android.location.Address;
 import android.location.Geocoder;
@@ -21,24 +22,31 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
+
 import android.content.Context;
 import android.content.Intent;
 
 import android.util.Log;
 import android.view.Gravity;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
+
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 
 
-public class Main extends Activity implements ButtonFrag.FormListener, DefaultDetailsListener{
+
+public class Main extends Activity implements ButtonFrag.FormListener, DefaultDetailsListener, ListViewFragListener{
 
 
 
@@ -50,7 +58,9 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	Context _context = this;  // Holds the Context
 	HashMap<String,	String> _history;  // Holds the Hashmap results
 	int daySpan = 1;  // Holds the int version of the forecast length requested (default 1)
-
+	JSONObject newObj;
+	String passMe;
+	
 
 
 	
@@ -103,7 +113,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	public void findZip(){ // Find zip code for API Pull and default text field entry
 		LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		
-		if(lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){  // Check for GPS
+		if(lm.isProviderEnabled(LocationManager.GPS_PROVIDER)){  // Check for GPS - Enabled
 			Location loc = lm.getLastKnownLocation("gps");
 			Geocoder geo = new Geocoder(this);
 			try{
@@ -116,7 +126,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 			}catch(Exception e){
 				e.printStackTrace();  // follow error
 			}
-		}else if(lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){  // Check for Network
+		}else if(lm.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){  // Check for Network - Enabled
 			Location loc = lm.getLastKnownLocation("network");
 			Geocoder geo = new Geocoder(this);
 			try{
@@ -130,7 +140,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 				e.printStackTrace();  // follow error
 			}
 		}else{
-			Log.i("LOCATION", "GPS and NETWORK disabled");
+			Log.i("LOCATION", "GPS and NETWORK connections are DISABLED");
 		}
 
 	} // end findZip 
@@ -192,19 +202,21 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		_history = getStoredHist();
+
 		setContentView(R.layout.main_act);
 		connected = com.klusman.java2.webStuff.getConnectionStatus(this);
 		checkConnection();
 		displayData(); // Display default data, if any.
 		testViewData();  // Test for Bundles and update data if any
-		_history = getStoredHist();
-		//runService();
-
+		getTheWeatherNOW();
+		popList();
+		
 
 	} // end onCreate
 
 	
-////  OPTIONS MENU  
+//// OPTIONS MENU  
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -218,11 +230,13 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 			case R.id.menu_pull_weather:
 				myToast("Pulling API Data!");
 				//startService(new Intent(this, UpdaterService.class));
-				getWeatherData();
+	//			getWeatherData();
+				getTheWeatherNOW();
+				//testTest();
 				break;
 			case R.id.menu_test_service:
-				myToast("Service Test Placeholder!");
-				//stopService(new Intent(this, UpdaterService.class));
+				//myToast("Service Test Place Holder!");
+				runServiceAction();
 				break;
 		}
 		return super.onMenuItemSelected(featureId, item);
@@ -232,7 +246,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 //// BUTTON HANDLERS
 	@Override
 	public void onWebClick() {
-		//constructionToast();
 		final String url = "http://www.worldweatheronline.com/country.aspx";
 		// Build Intent for web browser
 		Intent next = new Intent(Intent.ACTION_VIEW, Uri.parse(url) );
@@ -268,8 +281,36 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		// TODO Auto-generated method stub
 		
 	}
-
 	
+	@Override
+	public void popList() {
+		ListView listView = (ListView) findViewById(R.id.list);
+		Log.i("TEST", "popList Test 1");
+		customCellAdapter lView;
+		
+		if(resultsArrayW != null){
+			Log.i("WARNING", "resultsArray HAS DATA");
+			lView = new customCellAdapter(_context, resultsArrayW);
+			listView.setAdapter(lView);
+		}else{
+			Log.i("WARNING", "NO DATA IN resultsArray");
+			
+			try {
+				String st = _history.get("WeatherSave");  // Pull Saved data
+				JSONObject js = new JSONObject(st);  //  Build as JSON OBJ
+				Log.i("JSON OBJECT", "WORKED!");
+				resultsArrayW = js.getJSONArray("weather");  // Pull an Array from JSON
+				
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			lView = new customCellAdapter(_context, resultsArrayW);
+			listView.setAdapter(lView);			
+		}
+	}
+
+
 //// GET API DATA
 	@SuppressWarnings("unchecked")
 	private HashMap<String, String> getStoredHist(){
@@ -284,7 +325,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		}
 		return myStoredData;
 	}
-	
+	/*
 	private void getWeatherData(){  // Pulled from Java1 project
 		//String dayString = String.valueOf(daySpan);  // int to string
 		String daysREQd = forecastLengthPull();
@@ -293,14 +334,14 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		Log.i("DAYS TO GET", "Pull this many days: " + daysREQd );
 		// Concat http address
 		String messURL = "http://free.worldweatheronline.com/feed/weather.ashx?q=" + zipCode + "&format=json&num_of_days=" + daysREQd + "&key=2a0cc91795015022122811";
-		String qs;
+		String mString;
 
 		try{
-			qs = URLEncoder.encode(messURL, "UTF-8");  //encode URL
-			Log.i("URL to CALL", qs);  // URL test LOG
+			mString = URLEncoder.encode(messURL, "UTF-8");  //encode URL
+			Log.i("URL to CALL", mString);  // URL test LOG
 		} catch(Exception e){
 			Log.e("BAD URL", "Encoding Problem");
-			qs = "";
+			mString = "";
 		}
 		
 		URL finalURL;
@@ -315,7 +356,8 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		}
 
 	}
-	
+	*/
+	/*
 	private class weatherRequest extends AsyncTask<URL, Void, String>{
 
 
@@ -329,7 +371,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		}
 
 		
-		
+		// should be able to remove post execute now.  Added to handler
 		@Override
 		protected void onPostExecute(String result){
 			Log.i("URL RESPONSE:", result);
@@ -359,18 +401,75 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 			}
 
 		}
+	}*/
+	
+	private Handler myHandler = new Handler(){
+		
+		public void handleMessage(Message message){
+			Log.i("TEST","myHandler - 1");
+			Object path = message.obj;
+			if (message.arg1 == RESULT_OK && path != null){
+				String info = (String) message.obj.toString();
+				try{
+					Log.i("TEST","myHandler - 2");
+					JSONObject json = new JSONObject(info);
+					JSONObject results = json.getJSONObject("data");
+					resultsArrayW = results.getJSONArray("weather");
+					int arrayLength = resultsArrayW.length();
+
+					if(resultsArrayW == null){
+						Log.i("TEST","myHandler - 3");
+						Log.i("JSON GET OBJ", "NOT VALID");
+						Toast toast = Toast.makeText(_context, "GET JSON FAILED", Toast.LENGTH_SHORT);
+						toast.show();
+
+					}else{
+						Log.i("TEST","myHandler - else");
+						Toast toast = Toast.makeText(_context, String.valueOf(arrayLength) + " day(s) requested data received!", Toast.LENGTH_SHORT);
+						toast.show();
+						Log.i("ArrayLength", String.valueOf(resultsArrayW.length()));
+						//lineBuild(_context); // call the build 
+						_history.put("WeatherSave", results.toString());
+						SaveStuff.storeObjectFile(_context, "saveDataObj", _history, false);  // save local as JSON obj string
+						//SaveStuff.storeStringFile(_context, "saveDataString", results.toString(), false);
+					}
+				}catch (JSONException e){
+					Log.i("TEST","myHandler - error");
+					Log.e("JSON ERROR", "JSON ERROR");
+				}
+			}
+		}
+	};
+			
+
+	
+	
+	public void getTheWeatherNOW(){
+		String ZIPitem;
+		if (zipLocation != null){
+			ZIPitem = zipLocation;
+		} else {
+			ZIPitem = currentZip;
+		}
+		Log.i("TEST", "getTheWeatherNOW - 1");
+		Messenger messenger = new Messenger(myHandler);
+		Intent i = new Intent(getApplicationContext(), GetForecast.class);
+		i.putExtra("item", ZIPitem);
+		i.putExtra("MSNGR", messenger);
+		Log.i("TEST", "getTheWeatherNOW - 2");
+		startService(i);
 	}
 
 	
 //// BROADCAST RECEIVERS
-	BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
-
-	    @Override
-	    public void onReceive(Context context, Intent intent) {
-	        Log.w("Network Listener", "Network Type Changed");
-	        
-	    }
-	};
+//	BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
+//
+//	    @Override
+//	    public void onReceive(Context context, Intent intent) {
+//	        
+//	        
+//	    }
+//	};
 	
 	
 	
@@ -388,5 +487,5 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	
 	
 
-}
+}// END MAIN
 
