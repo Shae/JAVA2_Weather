@@ -1,6 +1,7 @@
 package com.klusman.java2;
 
 
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -50,7 +51,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 
 
-	String forecastLength = "1-Day Forecast";  // Holds the forecast Length String (default 1)
+	String forecastLength = "5-Day Forecast";  // Holds the forecast Length String (default 5)
 	String zipLocation;  //  Holds a passed in zip code Location
 	String currentZip;  // Holds the Mobile devices Current Zip Location
 	Boolean connected = false;  // Holds the flag for connected or not
@@ -203,13 +204,13 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		_history = getStoredHist();
-
+		getWeatherData();
 		setContentView(R.layout.main_act);
 		connected = com.klusman.java2.webStuff.getConnectionStatus(this);
 		checkConnection();
 		displayData(); // Display default data, if any.
 		testViewData();  // Test for Bundles and update data if any
-		getTheWeatherNOW();
+	//	getTheWeatherNOW();
 		popList();
 		
 
@@ -293,7 +294,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 			lView = new customCellAdapter(_context, resultsArrayW);
 			listView.setAdapter(lView);
 		}else{
-			Log.i("WARNING", "NO DATA IN resultsArray");
+			Log.i("WARNING", "NO data in'resultsArray' pulling from _history");
 			
 			try {
 				String st = _history.get("WeatherSave");  // Pull Saved data
@@ -325,7 +326,9 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		}
 		return myStoredData;
 	}
-	/*
+
+	
+
 	private void getWeatherData(){  // Pulled from Java1 project
 		//String dayString = String.valueOf(daySpan);  // int to string
 		String daysREQd = forecastLengthPull();
@@ -356,8 +359,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		}
 
 	}
-	*/
-	/*
+	
 	private class weatherRequest extends AsyncTask<URL, Void, String>{
 
 
@@ -401,7 +403,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 			}
 
 		}
-	}*/
+	}
 	
 	private Handler myHandler = new Handler(){
 		

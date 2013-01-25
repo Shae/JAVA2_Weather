@@ -44,6 +44,7 @@ public class GetForecast extends IntentService {
 	
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		Log.i("GET FORECAST", "TEST 2");
 		Bundle extras = intent.getExtras();
 		if (extras != null){
 			Messenger messenger = (Messenger) extras.get("MSNGR");
