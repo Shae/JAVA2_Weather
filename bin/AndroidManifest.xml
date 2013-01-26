@@ -41,11 +41,11 @@
 			</intent-filter>
 		</receiver>
         
-<!--  UPDATER SERVICE -->
-        <service android:name="UpdaterService"/>
-        <service android:name="ServiceAction"/>
-        <service android:name="GetForecast"/>
-        
+<!--  SERVICEs -->
+       <service android:name="UpdaterService"/>
+       <service android:name="ServiceAction"/>
+       <!-- <service android:name=".GetForecast"/> -->
+        <service android:enabled="true" android:name="com.klusman.java2.GetForecast" />
 <!--  DETAIL ACTIVITY -->
         <activity android:name="com.klusman.java2.ForecastDetails"/>
         

@@ -148,7 +148,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 	public String forecastLengthPull(){  // Get length for API Pull
 		
-		String days = "1";
+		String days = "5";
 		
 		if(forecastLength.compareTo("1-Day Forecast") == 0){
 			days = "1";
@@ -233,10 +233,8 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 				//startService(new Intent(this, UpdaterService.class));
 	//			getWeatherData();
 				getTheWeatherNOW();
-				//testTest();
 				break;
 			case R.id.menu_test_service:
-				//myToast("Service Test Place Holder!");
 				runServiceAction();
 				break;
 		}
@@ -329,9 +327,8 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 	
 ///////////  LEFT IN UNTIL I GET THE MESSAGE AND SERVICE WORKING CORRECTLY ///////////////////
-	private void getWeatherData(){  // Pulled from Java1 project
-		//String dayString = String.valueOf(daySpan);  // int to string
-		String daysREQd = forecastLengthPull();
+	private void getWeatherData(){  
+		String daysREQd = forecastLengthPull();  //Check Req'd forecast length (Default 5)
 		String zipCode = currentZip;  //Pull ZipCode from global values
 
 		Log.i("DAYS TO GET", "Pull this many days: " + daysREQd );
@@ -404,31 +401,35 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 		}
 	}
-////////////////////////////////////////////////////////////////////////////////////////////
+
 	
+	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////STEP 4  -  Receive message data from Service and decode ////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	private Handler myHandler = new Handler(){
 		
 		public void handleMessage(Message message){
-			Log.i("TEST","myHandler - 1");
-			Object path = message.obj;
-			if (message.arg1 == RESULT_OK && path != null){
-				String info = (String) message.obj.toString();
+			Log.i("TEST","myHandler - envoke");
+			Object result = message.obj;
+			if (message.arg1 == RESULT_OK && result != null){
+				String resultString = (String) message.obj.toString();
 				try{
-					Log.i("TEST","myHandler - 2");
-					JSONObject json = new JSONObject(info);
+					Log.i("TEST","myHandler - try");
+					JSONObject json = new JSONObject(resultString);
 					JSONObject results = json.getJSONObject("data");
 					resultsArrayW = results.getJSONArray("weather");
 					int arrayLength = resultsArrayW.length();
 
 					if(resultsArrayW == null){
-						Log.i("TEST","myHandler - 3");
+						Log.i("TEST","myHandler - IF - null");
 						Log.i("JSON GET OBJ", "NOT VALID");
 						Toast toast = Toast.makeText(_context, "GET JSON FAILED", Toast.LENGTH_SHORT);
 						toast.show();
 
 					}else{
-						Log.i("TEST","myHandler - else");
+						Log.i("TEST","myHandler - ELSE - has data");
 						Toast toast = Toast.makeText(_context, String.valueOf(arrayLength) + " day(s) requested data received!", Toast.LENGTH_SHORT);
 						toast.show();
 						Log.i("ArrayLength", String.valueOf(resultsArrayW.length()));
@@ -441,28 +442,40 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 					Log.i("TEST","myHandler - error");
 					Log.e("JSON ERROR", "JSON ERROR");
 				}
+				Log.i("HANDLER TEST", "HANDLER WORKS");
 			}
 		}
 	};
 			
-
-	
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////// STEP 1  -  Opening call method and Messenger targeting Intent (GetForeCast) and sending Data //////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	public void getTheWeatherNOW(){
 		String ZIPitem;
+		
 		if (zipLocation != null){
 			ZIPitem = zipLocation;
 		} else {
 			ZIPitem = currentZip;
 		}
-		Log.i("TEST", "getTheWeatherNOW - 1");
+		
+			Log.i("TEST", "getTheWeatherNOW 1");
+			
 		Messenger messenger = new Messenger(myHandler);
+		Log.i("TEST", "getTheWeatherNOW 2");
 		Intent i = new Intent(getApplicationContext(), GetForecast.class);
-		i.putExtra("item", ZIPitem);
-		i.putExtra("MSNGR", messenger);
-		Log.i("TEST", "getTheWeatherNOW - 2");
-		startService(i);
-	}
+		Log.i("TEST", "getTheWeatherNOW 3");
+		i.putExtra("theZip", ZIPitem);  // add zip code to messenger
+		Log.i("TEST", "getTheWeatherNOW 4");
+		i.putExtra("daysL", forecastLengthPull());  //Pull forecast Length and add to messenger
+		Log.i("TEST", "getTheWeatherNOW 5");
+		i.putExtra("MSNGR", messenger);  // attach Messenger Handler
+		Log.i("TEST", "getTheWeatherNOW 6");
+		startService(i);  //Start intent Service
+		
+	} // End getTheWeatherNOW
+	
 
 	
 //// BROADCAST RECEIVERS
