@@ -11,12 +11,13 @@ import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.util.Log;
+//import android.widget.Toast;
 
 public class GetForecast extends IntentService {
 	
 
 
-	public GetForecast(String name) {
+	public GetForecast() {
 		super("GetForecast");
 		// TODO Auto-generated constructor stub
 		Log.i("TEST", "GetForecast Intent 1");
@@ -48,6 +49,7 @@ public class GetForecast extends IntentService {
 			
 			Message msg = Message.obtain();
 			msg.arg1 = _result;
+			Log.i("onHandleIntent", String.valueOf(msg.arg1));
 			msg.obj = _response;
 			
 			try {
@@ -76,24 +78,13 @@ public class GetForecast extends IntentService {
 		
 		String API_URL = "http://free.worldweatheronline.com/feed/weather.ashx?q=" 
 				+ zipCode + "&format=json&num_of_days=" + myDays + "&key=2a0cc91795015022122811";
-		
-		String URLString;  // var for encoded URL
-		
-		try{
-			URLString = URLEncoder.encode(API_URL, "UTF-8");  //encode URL
-			Log.i("URL to CALL", URLString);  // URL test LOG
-		} catch(Exception e){
-			Log.e("BAD URL", "Encoding Problem");
-			URLString = "";
-		}
-		
-		
+
 		URL url;
-		
-		//Log.i("TEST", "GetForecastService");
+
 		try {
-			url = new URL(URLString);
+			url = new URL(API_URL);
 			_response = webStuff.getURLStringResponse(url);  //Test connection and hopefully get a response
+			Log.i("URL Response", _response);
 		} catch (MalformedURLException e) {
 			url = null;
 			e.printStackTrace();

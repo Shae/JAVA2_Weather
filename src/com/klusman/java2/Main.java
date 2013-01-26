@@ -413,8 +413,9 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		public void handleMessage(Message message){
 			Log.i("TEST","myHandler - envoke");
 			Object result = message.obj;
-			if (message.arg1 == RESULT_OK && result != null){
+			if (message.arg1 == 0 && result != null){  // had to make arg1 a ZERO instead of RESULT_OK - not sure why
 				String resultString = (String) message.obj.toString();
+				Log.i("TEST","myHandler - IF");
 				try{
 					Log.i("TEST","myHandler - try");
 					JSONObject json = new JSONObject(resultString);
@@ -460,18 +461,14 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 			ZIPitem = currentZip;
 		}
 		
-			Log.i("TEST", "getTheWeatherNOW 1");
+
 			
 		Messenger messenger = new Messenger(myHandler);
-		Log.i("TEST", "getTheWeatherNOW 2");
 		Intent i = new Intent(getApplicationContext(), GetForecast.class);
-		Log.i("TEST", "getTheWeatherNOW 3");
 		i.putExtra("theZip", ZIPitem);  // add zip code to messenger
-		Log.i("TEST", "getTheWeatherNOW 4");
 		i.putExtra("daysL", forecastLengthPull());  //Pull forecast Length and add to messenger
-		Log.i("TEST", "getTheWeatherNOW 5");
 		i.putExtra("MSNGR", messenger);  // attach Messenger Handler
-		Log.i("TEST", "getTheWeatherNOW 6");
+			Log.i("TEST", "getTheWeatherNOW");
 		startService(i);  //Start intent Service
 		
 	} // End getTheWeatherNOW
