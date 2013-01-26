@@ -2,9 +2,6 @@ package com.klusman.java2;
 
 
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,7 +18,6 @@ import android.location.Location;
 import android.location.LocationManager;
 
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -51,7 +47,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 
 
-	String forecastLength = "5-Day Forecast";  // Holds the forecast Length String (default 5)
+	String forecastLength = "5";  // Holds the forecast Length String (default 5)
 	String zipLocation;  //  Holds a passed in zip code Location
 	String currentZip;  // Holds the Mobile devices Current Zip Location
 	Boolean connected = false;  // Holds the flag for connected or not
@@ -146,31 +142,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 	} // end findZip 
 
-	public String forecastLengthPull(){  // Get length for API Pull
-		
-		String days = "5";
-		
-		if(forecastLength.compareTo("1-Day Forecast") == 0){
-			days = "1";
-		}
-		if(forecastLength.compareTo("2-Day Forecast") == 0){
-			days = "2";
-		}
-		if(forecastLength.compareTo("3-Day Forecast") == 0){
-			days = "3";
-		}
-		if(forecastLength.compareTo("4-Day Forecast") == 0){
-			days = "4";
-		}
-		if(forecastLength.compareTo("5-Day Forecast") == 0){
-			days = "5";
-		} 
-		else{
-			days = "5";
-		}
-		return days;
-		
-	}
 	
 	
 //// SERVICE Starters & Stoppers
@@ -204,14 +175,15 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		_history = getStoredHist();
-		getWeatherData();
+		//getWeatherData();
 		setContentView(R.layout.main_act);
 		connected = com.klusman.java2.webStuff.getConnectionStatus(this);
 		checkConnection();
 		displayData(); // Display default data, if any.
 		testViewData();  // Test for Bundles and update data if any
-	//	getTheWeatherNOW();
-		popList();
+		findZip();
+		getTheWeatherNOW();
+		//popList();
 		
 
 	} // end onCreate
@@ -231,7 +203,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 			case R.id.menu_pull_weather:
 				myToast("Pulling API Data!");
 				//startService(new Intent(this, UpdaterService.class));
-	//			getWeatherData();
 				getTheWeatherNOW();
 				break;
 			case R.id.menu_test_service:
@@ -284,15 +255,14 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	@Override
 	public void popList() {
 		ListView listView = (ListView) findViewById(R.id.list);
-		Log.i("TEST", "popList Test 1");
 		customCellAdapter lView;
 		
 		if(resultsArrayW != null){
-			Log.i("WARNING", "resultsArray HAS DATA");
+			Log.i("POPList", "resultsArray HAS DATA");
 			lView = new customCellAdapter(_context, resultsArrayW);
 			listView.setAdapter(lView);
 		}else{
-			Log.i("WARNING", "NO data in'resultsArray' pulling from _history");
+			Log.i("POPList", "NO data in'resultsArray' pulling from _history");
 			
 			try {
 				String st = _history.get("WeatherSave");  // Pull Saved data
@@ -325,84 +295,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		return myStoredData;
 	}
 
-	
-///////////  LEFT IN UNTIL I GET THE MESSAGE AND SERVICE WORKING CORRECTLY ///////////////////
-	private void getWeatherData(){  
-		String daysREQd = forecastLengthPull();  //Check Req'd forecast length (Default 5)
-		String zipCode = currentZip;  //Pull ZipCode from global values
 
-		Log.i("DAYS TO GET", "Pull this many days: " + daysREQd );
-		// Concat http address
-		String messURL = "http://free.worldweatheronline.com/feed/weather.ashx?q=" + zipCode + "&format=json&num_of_days=" + daysREQd + "&key=2a0cc91795015022122811";
-		String mString;
-
-		try{
-			mString = URLEncoder.encode(messURL, "UTF-8");  //encode URL
-			Log.i("URL to CALL", mString);  // URL test LOG
-		} catch(Exception e){
-			Log.e("BAD URL", "Encoding Problem");
-			mString = "";
-		}
-		
-		URL finalURL;
-
-		try{
-			finalURL = new URL(messURL);  
-			weatherRequest myREQ = new weatherRequest();
-			myREQ.execute(finalURL);
-
-		} catch(MalformedURLException e){
-			Log.e("BAD URL", "URL Problem Final");
-		}
-
-	}
-	
-	private class weatherRequest extends AsyncTask<URL, Void, String>{
-
-
-		@Override
-		protected String doInBackground(URL... urls) {
-			String response = "";
-			for (URL url: urls){
-				response = WebConnections.getURLStringResponse(url);
-			}
-			return response;
-		}
-
-		
-		// should be able to remove post execute now.  Added to handler
-		@Override
-		protected void onPostExecute(String result){
-			Log.i("URL RESPONSE:", result);
-
-			try{
-				JSONObject json = new JSONObject(result);
-				JSONObject results = json.getJSONObject("data");
-				resultsArrayW = results.getJSONArray("weather");
-				int arrayLength = resultsArrayW.length();
-
-				if(resultsArrayW == null){
-					Log.i("JSON GET OBJ", "NOT VALID");
-					Toast toast = Toast.makeText(_context, "GET JSON FAILED", Toast.LENGTH_SHORT);
-					toast.show();
-
-				}else{
-					Toast toast = Toast.makeText(_context, String.valueOf(arrayLength) + " day(s) requested data received!", Toast.LENGTH_SHORT);
-					toast.show();
-					Log.i("ArrayLength", String.valueOf(resultsArrayW.length()));
-					//lineBuild(_context); // call the build 
-					_history.put("WeatherSave", results.toString());
-					SaveStuff.storeObjectFile(_context, "saveDataObj", _history, false);  // save local as JSON obj string
-					//SaveStuff.storeStringFile(_context, "saveDataString", results.toString(), false);
-				}
-			}catch (JSONException e){
-				Log.e("JSON ERROR", "JSON ERROR");
-			}
-
-		}
-	}
-
-	
 	
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////STEP 4  -  Receive message data from Service and decode ////////////////////////////////////////////
@@ -415,9 +308,9 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 			Object result = message.obj;
 			if (message.arg1 == 0 && result != null){  // had to make arg1 a ZERO instead of RESULT_OK - not sure why
 				String resultString = (String) message.obj.toString();
-				Log.i("TEST","myHandler - IF");
+				Log.i("TEST","myHandler - IF has data and ok");
 				try{
-					Log.i("TEST","myHandler - try");
+					Log.i("TEST","myHandler - try to make JSON obj");
 					JSONObject json = new JSONObject(resultString);
 					JSONObject results = json.getJSONObject("data");
 					resultsArrayW = results.getJSONArray("weather");
@@ -444,6 +337,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 					Log.e("JSON ERROR", "JSON ERROR");
 				}
 				Log.i("HANDLER TEST", "HANDLER WORKS");
+				popList();  // rePopulate ListView
 			}
 		}
 	};
@@ -460,13 +354,11 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		} else {
 			ZIPitem = currentZip;
 		}
-		
-
 			
 		Messenger messenger = new Messenger(myHandler);
 		Intent i = new Intent(getApplicationContext(), GetForecast.class);
 		i.putExtra("theZip", ZIPitem);  // add zip code to messenger
-		i.putExtra("daysL", forecastLengthPull());  //Pull forecast Length and add to messenger
+		i.putExtra("daysL", forecastLength);  //Pull forecast Length and add to messenger
 		i.putExtra("MSNGR", messenger);  // attach Messenger Handler
 			Log.i("TEST", "getTheWeatherNOW");
 		startService(i);  //Start intent Service
@@ -474,32 +366,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	} // End getTheWeatherNOW
 	
 
-	
-//// BROADCAST RECEIVERS
-//	BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
-//
-//	    @Override
-//	    public void onReceive(Context context, Intent intent) {
-//	        
-//	        
-//	    }
-//	};
-	
-	
-	
-	
-//	private Handler messageHandler = new Handler(){
-//		public void handleMessage(Message message){
-//			//HANDLER CODE BODY
-//		}
-//	};
-	
-	
-//	Messenger messenger = new Messenger(messageHandler);
-//	Intent myIntent = new Intent(getApplicationContext(), Intent.class);
-//	myIntent.putExtra("messenger", messenger);
-	
-	
 
 }// END MAIN
 

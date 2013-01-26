@@ -2,7 +2,6 @@ package com.klusman.java2;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import android.app.IntentService;
 import android.content.Intent;
@@ -19,8 +18,6 @@ public class GetForecast extends IntentService {
 
 	public GetForecast() {
 		super("GetForecast");
-		// TODO Auto-generated constructor stub
-		Log.i("TEST", "GetForecast Intent 1");
 	}
 	
 	
@@ -42,14 +39,12 @@ public class GetForecast extends IntentService {
 			messenger = (Messenger) extras.get("MSNGR");
 			String myZip = (String) extras.get("theZip");
 			String days = (String) extras.get("daysL");
-			Log.i("onHandleIntent", myZip);
+			//Log.i("onHandleIntent", myZip);
 			
 			GetNewForecast(myZip, days);  // RUN STEP 3
-			
-			
 			Message msg = Message.obtain();
 			msg.arg1 = _result;
-			Log.i("onHandleIntent", String.valueOf(msg.arg1));
+			//Log.i("onHandleIntent", String.valueOf(msg.arg1));
 			msg.obj = _response;
 			
 			try {

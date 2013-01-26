@@ -3,6 +3,7 @@ package com.klusman.java2;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 public class ZipSet extends Activity {
 	String choice;
+	int choiceInt;
 	String enteredZip;
 	String currentZip;
 
@@ -39,6 +41,7 @@ public class ZipSet extends Activity {
 				enteredZip = et.getText().toString();
 				Intent next = new Intent(ZipSet.this, Main.class);
 				next.putExtra("Length", choice);  // Test Data
+				Log.i("ZIPSET", choice);
 				next.putExtra("Zip", enteredZip);  // Test Data
 				startActivity(next);
 			}
