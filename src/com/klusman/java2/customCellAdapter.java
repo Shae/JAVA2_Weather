@@ -45,6 +45,7 @@ public class customCellAdapter extends BaseAdapter {
 	        View v = convertView;
 	        //WebIView sath;
 	        TextView Title;
+	        TextView Weather;
 	        Log.i("LISTVIEW", "Checking Position" + position);
 	        try
 	        {       
@@ -56,7 +57,8 @@ public class customCellAdapter extends BaseAdapter {
 	                }           
 	                //sath = (WebIView) v.findViewById(R.id.sathumbnail);
 	                Title = (TextView) v.findViewById(R.id.title);
-/*
+	                Weather = (TextView) v.findViewById(R.id.blurb);
+	                /*
 	                if(item.has("image") && sath != null)
 	                {
 	                    JSONObject thisImage = item.getJSONObject("image");
@@ -67,6 +69,9 @@ public class customCellAdapter extends BaseAdapter {
 	                if(Title != null)
 	                {
 	                	Title.setText(item.getString("date"));
+	                	String high = item.getString("tempMaxF");
+	                	String low = item.getString("tempMinF");
+	                	Weather.setText("High: " + high + "   Low: " + low);
 	                }
 	            }else{
 	                return null;
