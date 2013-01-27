@@ -4,16 +4,28 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
     
-   <fragment 
+<!--   <fragment 
 	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="0dp"
 	    android:layout_height="match_parent"
 	    android:layout_gravity="center_vertical"
 	    android:id="@+id/def_frag"
 	    android:name= "com.klusman.java2.DefaultDetailsFrag"
-	    android:layout_weight="2"
+	    android:layout_weight="1"
 	    
-    /> 
+    />  -->
+    
+<fragment 
+	    xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="0dp"
+	    android:layout_height="match_parent"
+	    android:layout_gravity="center_vertical"
+	    android:id="@+id/listview_frag"
+	    android:name= "com.klusman.java2.ListViewFrag"
+	    android:layout_weight="4"
+	    
+	 /> 
+	 
 	<fragment 
 	    xmlns:android="http://schemas.android.com/apk/res/android"
 	    android:layout_width="0dp"
@@ -23,15 +35,5 @@
 	    android:name= "com.klusman.java2.ButtonFrag"
 	    android:layout_weight="2"
     />
-<fragment 
-	    xmlns:android="http://schemas.android.com/apk/res/android"
-	    android:layout_width="0dp"
-	    android:layout_height="match_parent"
-	    android:layout_gravity="center_vertical"
-	    android:id="@+id/listview_frag"
-	    android:name= "com.klusman.java2.ListViewFrag"
-	    android:layout_weight="2"
-	    
-	 /> 
 
 </LinearLayout>

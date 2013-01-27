@@ -20,7 +20,6 @@ public class ButtonFrag extends Fragment {
 	
 		public interface FormListener{
 			public void onWebClick();
-			public void onHistClick();
 			public void onForecastClick();
 			
 	}
@@ -53,14 +52,14 @@ public class ButtonFrag extends Fragment {
 		});
 
 		// HISTORY BUTTON
-		Button btnHIST = (Button) view.findViewById(R.id.btnHistory);
-		btnHIST.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				listener.onHistClick();
-			}
-		});			
+		//Button btnHIST = (Button) view.findViewById(R.id.btnHistory);
+//		btnHIST.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				listener.onHistClick();
+//			}
+//		});			
 
 
 		return view;

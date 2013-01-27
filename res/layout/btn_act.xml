@@ -20,7 +20,7 @@
     	android:textStyle="bold"
         />
 
-	<Button
+<!-- 	<Button
         android:id="@+id/btnHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,7 +29,7 @@
     	android:shadowRadius="6"
     	android:shadowDx="0"
     	android:shadowDy="0"
-    	android:textStyle="bold"/>
+    	android:textStyle="bold"/> -->
 
 
     <Button

@@ -1,7 +1,5 @@
 package com.klusman.java2;
 
-
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,7 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.klusman.java2.DefaultDetailsFrag.DefaultDetailsListener;
 import com.klusman.java2.ListViewFrag.ListViewFragListener;
 
 import android.location.Address;
@@ -33,19 +30,12 @@ import android.view.Gravity;
 
 import android.view.Menu;
 import android.view.MenuItem;
-
-
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 
-
-
-public class Main extends Activity implements ButtonFrag.FormListener, DefaultDetailsListener, ListViewFragListener{
-
-
+public class Main extends Activity implements ButtonFrag.FormListener, ListViewFragListener{
 
 	String forecastLength = "5";  // Holds the forecast Length String (default 5)
 	String zipLocation;  //  Holds a passed in zip code Location
@@ -59,35 +49,16 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	String passMe;
 	
 
-
-	
-
 //// LOCAL METHODS	
 	public void testViewData(){  // Test for Bundles
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			forecastLength = extras.getString("Length");
 			zipLocation = extras.getString("Zip");
-			displayData();
+			
 		}
 	}
 
-	public void displayData(){  // Get Data for TextViews 
-		TextView length = (TextView) findViewById(R.id.textViewDays);
-		
-		length.setText(forecastLength);
-		
-		if (currentZip == null){
-			findZip();
-		}
-
-		TextView zipcode = (TextView) findViewById(R.id.textViewZip);
-		
-		if(zipLocation != ""){
-			zipcode.setText(zipLocation);
-		}
-	
-	}	
 	
 	public void myToast(String text){  // Toast Template
 		CharSequence textIN = text;
@@ -151,12 +122,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		
 	}
 	
-	public void stopUpdaterService(){  //  to Run the "UpdaterService" Service
-		Intent intent = new Intent(this, UpdaterService.class);
-		stopService(intent);
-		
-	}
-	
 	public void runServiceAction(){  // to run the "ServiceAction" Service
 		Intent intent = new Intent(this, ServiceAction.class);
 		startService(intent);
@@ -175,15 +140,12 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		_history = getStoredHist();
-		//getWeatherData();
 		setContentView(R.layout.main_act);
 		connected = com.klusman.java2.webStuff.getConnectionStatus(this);
 		checkConnection();
-		displayData(); // Display default data, if any.
 		testViewData();  // Test for Bundles and update data if any
 		findZip();
 		getTheWeatherNOW();
-		//popList();
 		
 
 	} // end onCreate
@@ -223,11 +185,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 	}
 
-	@Override
-	public void onHistClick() {
-		myToast("Under Construction!");
-
-	}
 
 	@Override
 	public void onForecastClick() {
@@ -238,19 +195,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 
 	
 //// IMPLEMENT LISTENERS
-	@Override
-	public void onFirstOpen() {
-
-
-
-		
-	}
-
-	@Override
-	public void onSetText() {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	@Override
 	public void popList() {
@@ -271,7 +215,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 				resultsArrayW = js.getJSONArray("weather");  // Pull an Array from JSON
 				
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			lView = new customCellAdapter(_context, resultsArrayW);
@@ -365,7 +308,6 @@ public class Main extends Activity implements ButtonFrag.FormListener, DefaultDe
 		
 	} // End getTheWeatherNOW
 	
-
 
 }// END MAIN
 

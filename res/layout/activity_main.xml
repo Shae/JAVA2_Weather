@@ -15,7 +15,7 @@
         android:text="New Forecast Data"
         tools:ignore="HardcodedText" />
 
-    <Button
+    <!-- <Button
         android:id="@+id/btnHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,13 +23,13 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="65dp"
         android:text="Pull Forecast History"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText" /> -->
 
     <Button
         android:id="@+id/btnWeb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnHistory"
+        android:layout_below="@+id/btnNew"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
         android:text="Weather Webpage"

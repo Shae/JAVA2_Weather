@@ -13,17 +13,10 @@ public class UpdaterService extends IntentService {
 		
 	}
 	
-	
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-	    Toast.makeText(this, TAG, Toast.LENGTH_SHORT).show();
-	    return super.onStartCommand(intent,flags,startId);
-	}
-	
-	
 
 	@Override
 	protected void onHandleIntent(Intent intent) {
+		Toast.makeText(this, TAG, Toast.LENGTH_SHORT).show();
 		
 	}
 	

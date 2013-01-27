@@ -24,7 +24,10 @@
         <activity
             android:name="com.klusman.java2.Main"
             android:label="@string/app_name" 
-           android:uiOptions="splitActionBarWhenNarrow"> <!--  Place ActionBar at the Bottom  -->
+           	android:uiOptions="splitActionBarWhenNarrow">
+
+			<!--  Place ActionBar at the Bottom  -->
+           
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -42,12 +45,11 @@
 		</receiver>
         
 <!--  SERVICEs -->
-       <service android:name="UpdaterService"/>
-       <service android:name="ServiceAction"/> 
-       <!-- <service android:name=".GetForecast"/> -->
+        <service android:name="UpdaterService"/>
+        <service android:name="ServiceAction"/> 
         <service android:enabled="true" android:name="com.klusman.java2.GetForecast" />
 <!--  DETAIL ACTIVITY -->
-        <activity android:name="com.klusman.java2.ForecastDetails"/>
+    <!--     <activity android:name="com.klusman.java2.ForecastDetails"/> -->
         
 <!--  NEW FORECAST ACTIVITY -->
         <activity android:name=".NewForecast"/>
