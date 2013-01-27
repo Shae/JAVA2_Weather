@@ -19,15 +19,23 @@
         android:layout_alignParentLeft="true"
         android:layout_marginRight="5dip"
         android:background="#c4c4c4"
-        android:padding="3dip" >
+        android:padding="3dip" 
+        >
 
-        <ImageView
+			<com.loopj.android.image.SmartImageView
+			    android:id="@+id/my_image"
+			    android:layout_width="35dp"
+			    android:layout_height="35dp"
+			    android:contentDescription="Weather Icon"
+			    tools:ignore="HardcodedText" />
+
+        <!-- <ImageView
             android:id="@+id/list_image"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:contentDescription="Weather Icon"
             android:src="@drawable/hottherm"
-            tools:ignore="HardcodedText" />
+            tools:ignore="HardcodedText" /> -->
     </LinearLayout>
 
     <!-- Title -->
@@ -77,13 +85,13 @@
 
     <!-- Rightend Arrow -->
 
-    <ImageView
+  <!--   <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:contentDescription="Place holder for right shift arrow"
         android:src="@drawable/ic_launcher"
-        tools:ignore="HardcodedText" />
+        tools:ignore="HardcodedText" /> -->
 
 </RelativeLayout>

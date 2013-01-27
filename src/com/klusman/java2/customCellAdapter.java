@@ -1,15 +1,21 @@
 package com.klusman.java2;
 
 
+import java.net.URLEncoder;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import com.loopj.android.image.SmartImageView;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class customCellAdapter extends BaseAdapter {
@@ -43,10 +49,14 @@ public class customCellAdapter extends BaseAdapter {
 	    public View getView(int position, View convertView, ViewGroup parent) 
 	    {
 	        View v = convertView;
-	        //WebIView sath;
 	        TextView Title;
 	        TextView Weather;
+	        TextView Wind;
 	        Log.i("LISTVIEW", "Checking Position" + position);
+	        
+	        
+	        
+	        
 	        try
 	        {       
 	            if(!items.isNull(position))
@@ -55,23 +65,20 @@ public class customCellAdapter extends BaseAdapter {
 	                if (v == null) {
 	                    v = LayoutInflater.from(cont).inflate(R.layout.day_tile_act, null);
 	                }           
-	                //sath = (WebIView) v.findViewById(R.id.sathumbnail);
+	                
 	                Title = (TextView) v.findViewById(R.id.title);
 	                Weather = (TextView) v.findViewById(R.id.blurb);
-	                /*
-	                if(item.has("image") && sath != null)
-	                {
-	                    JSONObject thisImage = item.getJSONObject("image");
-	                    sath.reset();
-	                    sath.setImageUrl(thisImage.getString("thumbnail"));
-	                    sath.loadImage();
-	                }*/
+	                Wind = (TextView) v.findViewById(R.id.smallCornerText);
+	                SmartImageView myImage = (SmartImageView) v.findViewById(R.id.my_image);
+
 	                if(Title != null)
 	                {
 	                	Title.setText(item.getString("date"));
-	                	String high = item.getString("tempMaxF");
-	                	String low = item.getString("tempMinF");
-	                	Weather.setText("High: " + high + "   Low: " + low);
+	                	Weather.setText("High: " + item.getString("tempMaxF") + "   Low: " + item.getString("tempMinF"));
+	                	Wind.setText("Windspeed:  " + item.getString("windspeedMiles"));
+	                	String picLink = item.getJSONArray("weatherIconUrl").getJSONObject(0).getString("value");
+	                	Log.i("PICLINK", picLink);
+	                	myImage.setImageUrl(picLink);  //Test image  "weatherIconUrl"
 	                }
 	            }else{
 	                return null;
