@@ -22,6 +22,7 @@ import android.os.Messenger;
 
 import android.app.Activity;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 
@@ -309,5 +310,16 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 	} // End getTheWeatherNOW
 	
 
+	public void getCursor(){
+		
+	}
+	
+	
+	@Override
+	public ContentResolver getContentResolver() {
+		// TODO Auto-generated method stub
+		return super.getContentResolver();
+	}
+	
 }// END MAIN
 
