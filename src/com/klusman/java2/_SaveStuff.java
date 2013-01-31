@@ -8,7 +8,7 @@ import java.io.ObjectOutputStream;
 import android.content.Context;
 import android.util.Log;
 
-public class SaveStuff {
+public class _SaveStuff {
 
 	public static Boolean storeStringFile(Context context, String filename, String content, Boolean external){
 		

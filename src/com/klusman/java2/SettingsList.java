@@ -5,15 +5,13 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.ContentResolver;
-import android.content.CursorLoader;
+
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
+
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
+
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Trying something new, getting the settings values instead of my JSON from API //

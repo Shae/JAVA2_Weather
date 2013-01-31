@@ -29,13 +29,7 @@
 			    android:contentDescription="Weather Icon"
 			    tools:ignore="HardcodedText" />
 
-        <!-- <ImageView
-            android:id="@+id/list_image"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:contentDescription="Weather Icon"
-            android:src="@drawable/hottherm"
-            tools:ignore="HardcodedText" /> -->
+       
     </LinearLayout>
 
     <!-- Title -->

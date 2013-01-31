@@ -48,15 +48,17 @@
         <service android:name="UpdaterService"/>
         <service android:name="ServiceAction"/> 
         <service android:enabled="true" android:name="com.klusman.java2.GetForecast" />
-<!--  DETAIL ACTIVITY -->
-    <!--     <activity android:name="com.klusman.java2.ForecastDetails"/> -->
-        
+
 <!--  NEW FORECAST ACTIVITY -->
         <activity android:name=".NewForecast"/>
           
 <!--  ZIP CODE ACTIVITY -->
         <activity android:name=".ZipSet"/>
         
+<!-- PROVIDER -->
+        <!-- <provider android:name="ZipContentProvider"
+			android:authorities="com.klusman.java2.ZipContent"
+			android:exported="false" /> -->
         
     </application>
 

@@ -3,7 +3,6 @@ package com.klusman.java2;
 
 import android.app.Activity;
 import android.app.Fragment;
-//import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ public class ListViewFrag extends Fragment  {
 
 	public interface ListViewFragListener {
 		public void popList();
+		public void onClickCell();
 
 	}
 	
@@ -28,9 +28,12 @@ public class ListViewFrag extends Fragment  {
 		super.onCreateView(inflater, container, savedInstanceState);
 
 		LinearLayout view = (LinearLayout) inflater.inflate(R.layout.listview_frag, container, false);
-		
+		view.findViewById(R.id.list);
+
 		return view;
 	}
+	
+	
 	
 	@Override           
 	public void onAttach(Activity activity){

@@ -66,10 +66,10 @@ public class GetForecast extends IntentService {
 	public void GetNewForecast(String zip, String days){
 		
 		String myDays = days;
-		Log.i("DAYS TO PULL", "GetNewForecast days: " + myDays );
+		//Log.i("DAYS TO PULL", "GetNewForecast days: " + myDays );
 		
 		String zipCode = zip;
-		Log.i("ZIP TO PULL", "GetNewForecast zip: " + zipCode );
+		//Log.i("ZIP TO PULL", "GetNewForecast zip: " + zipCode );
 		
 		String API_URL = "http://free.worldweatheronline.com/feed/weather.ashx?q=" 
 				+ zipCode + "&format=json&num_of_days=" + myDays + "&key=2a0cc91795015022122811";
@@ -79,7 +79,7 @@ public class GetForecast extends IntentService {
 		try {
 			url = new URL(API_URL);
 			_response = webStuff.getURLStringResponse(url);  //Test connection and hopefully get a response
-			Log.i("URL Response", _response);
+			//Log.i("URL Response", _response);
 		} catch (MalformedURLException e) {
 			url = null;
 			e.printStackTrace();

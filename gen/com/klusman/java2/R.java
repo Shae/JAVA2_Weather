@@ -32,31 +32,32 @@ public final class R {
         public static final int btnWeb=0x7f080009;
         public static final int button1=0x7f080007;
         public static final int button_frag=0x7f080017;
+        public static final int countryTextView=0x7f08001d;
         public static final int editTextZip=0x7f080015;
-        public static final int list=0x7f08001f;
-        public static final int listview_frag=0x7f080020;
-        public static final int menu_pull_weather=0x7f080025;
-        public static final int menu_settings=0x7f080024;
-        public static final int menu_test_service=0x7f080026;
+        public static final int list=0x7f080020;
+        public static final int listview_frag=0x7f080021;
+        public static final int menu_pull_weather=0x7f080026;
+        public static final int menu_settings=0x7f080025;
+        public static final int menu_test_service=0x7f080027;
         public static final int my_image=0x7f080019;
         public static final int progressBar1=0x7f08000a;
         public static final int radioButton5=0x7f080011;
         public static final int radioGoupOpts=0x7f08000c;
         public static final int settings_list=0x7f080013;
         public static final int smallCornerText=0x7f08001c;
-        public static final int textName=0x7f080021;
-        public static final int textValue=0x7f080022;
+        public static final int textName=0x7f080022;
+        public static final int textValue=0x7f080023;
         public static final int textView1=0x7f08000b;
         public static final int textView2=0x7f080001;
         public static final int textView3=0x7f080002;
         public static final int textView4=0x7f080003;
         public static final int textView5=0x7f080004;
-        public static final int textViewDays=0x7f08001e;
+        public static final int textViewDays=0x7f08001f;
         public static final int textViewName=0x7f080000;
-        public static final int textViewZip=0x7f08001d;
+        public static final int textViewZip=0x7f08001e;
         public static final int thumbnail=0x7f080018;
         public static final int title=0x7f08001a;
-        public static final int wthr_data_frag=0x7f080023;
+        public static final int wthr_data_frag=0x7f080024;
     }
     public static final class layout {
         public static final int activity_details=0x7f030000;
@@ -67,11 +68,12 @@ public final class R {
         public static final int btn_act=0x7f030005;
         public static final int button_frag=0x7f030006;
         public static final int day_tile_act=0x7f030007;
-        public static final int def_act=0x7f030008;
-        public static final int listview_frag=0x7f030009;
-        public static final int main_act=0x7f03000a;
-        public static final int row=0x7f03000b;
-        public static final int weather_data_frag=0x7f03000c;
+        public static final int db_list_view=0x7f030008;
+        public static final int def_act=0x7f030009;
+        public static final int listview_frag=0x7f03000a;
+        public static final int main_act=0x7f03000b;
+        public static final int row=0x7f03000c;
+        public static final int weather_data_frag=0x7f03000d;
     }
     public static final class menu {
         public static final int activity_main=0x7f070000;

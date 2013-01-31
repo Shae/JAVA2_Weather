@@ -26,6 +26,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 
+
 import android.util.Log;
 import android.view.Gravity;
 
@@ -89,7 +90,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 				List<Address> add = geo.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
 				for (Address address : add) {
 					String post = address.getPostalCode();
-					Log.i("POSTAL GPS", post);
+					
 					currentZip = post;
 				}
 			}catch(Exception e){
@@ -102,7 +103,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 				List<Address> add = geo.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
 				for (Address address : add) {
 					String post = address.getPostalCode();
-					Log.i("POSTAL NETWORK", post);
+					//Log.i("POSTAL NETWORK", post);
 					currentZip = post;
 				}
 			}catch(Exception e){
@@ -140,6 +141,20 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	/*
+		SQLiteDatabase db = openOrCreateDatabase("ZipcodeTEST", MODE_PRIVATE, null);
+		db.execSQL("CREATE TABLE IF NOT EXISTS ZipTESTs (id integer primary key autoincrement, zip VARCHAR NOT NULL);");  //id interger primary key autoincrement, 
+		db.execSQL("INSERT INTO ZipTESTS (zip) VALUES ('99999');");//"INSERT INTO Zipcodes (zipcode) VALUES ('99999');"
+		//String t = db.getPath().toString();
+		//Log.i("DB PATH", t);
+		Cursor c = db.rawQuery("SELECT * from ZipTESTS", null);
+		
+		c.moveToFirst();
+		Log.d("results", c.getString(c.getColumnIndex("zip")));
+		db.close();
+		*/
+		_context.deleteDatabase("ZipcodeDB");
+		
 		_history = getStoredHist();
 		setContentView(R.layout.main_act);
 		connected = com.klusman.java2.webStuff.getConnectionStatus(this);
@@ -203,16 +218,16 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 		customCellAdapter lView;
 		
 		if(resultsArrayW != null){
-			Log.i("POPList", "resultsArray HAS DATA");
+			//Log.i("POPList", "resultsArray HAS DATA");
 			lView = new customCellAdapter(_context, resultsArrayW);
 			listView.setAdapter(lView);
 		}else{
-			Log.i("POPList", "NO data in'resultsArray' pulling from _history");
+			//Log.i("POPList", "NO data in'resultsArray' pulling from _history");
 			
 			try {
 				String st = _history.get("WeatherSave");  // Pull Saved data
 				JSONObject js = new JSONObject(st);  //  Build as JSON OBJ
-				Log.i("JSON OBJECT", "WORKED!");
+				//Log.i("JSON OBJECT", "WORKED!");
 				resultsArrayW = js.getJSONArray("weather");  // Pull an Array from JSON
 				
 			} catch (JSONException e) {
@@ -227,11 +242,11 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 //// GET API DATA
 	@SuppressWarnings("unchecked")
 	private HashMap<String, String> getStoredHist(){
-		Object stored = ReadStuff.readObjectFile(_context, "saveDataObj", false);
+		Object stored = _ReadStuff.readObjectFile(_context, "saveDataObj", false);
 		
 		HashMap<String, String> myStoredData;
 		if(stored == null){
-			Log.i("READ DATA", "NO PAST DATA SAVED");
+			//Log.i("READ DATA", "NO PAST DATA SAVED");
 			myStoredData = new HashMap<String, String>();
 		}else{
 			myStoredData = (HashMap<String, String>) stored;
@@ -248,39 +263,39 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 	private Handler myHandler = new Handler(){
 		
 		public void handleMessage(Message message){
-			Log.i("TEST","myHandler - envoke");
+			//Log.i("TEST","myHandler - envoke");
 			Object result = message.obj;
 			if (message.arg1 == 0 && result != null){  // had to make arg1 a ZERO instead of RESULT_OK - not sure why
 				String resultString = (String) message.obj.toString();
-				Log.i("TEST","myHandler - IF has data and ok");
+				//Log.i("TEST","myHandler - IF has data and ok");
 				try{
-					Log.i("TEST","myHandler - try to make JSON obj");
+					//Log.i("TEST","myHandler - try to make JSON obj");
 					JSONObject json = new JSONObject(resultString);
 					JSONObject results = json.getJSONObject("data");
 					resultsArrayW = results.getJSONArray("weather");
 					int arrayLength = resultsArrayW.length();
 
 					if(resultsArrayW == null){
-						Log.i("TEST","myHandler - IF - null");
-						Log.i("JSON GET OBJ", "NOT VALID");
+						//Log.i("TEST","myHandler - IF - null");
+						//Log.i("JSON GET OBJ", "NOT VALID");
 						Toast toast = Toast.makeText(_context, "GET JSON FAILED", Toast.LENGTH_SHORT);
 						toast.show();
 
 					}else{
-						Log.i("TEST","myHandler - ELSE - has data");
+						//Log.i("TEST","myHandler - ELSE - has data");
 						Toast toast = Toast.makeText(_context, String.valueOf(arrayLength) + " day(s) requested data received!", Toast.LENGTH_SHORT);
 						toast.show();
-						Log.i("ArrayLength", String.valueOf(resultsArrayW.length()));
+						//Log.i("Weather Array Length", String.valueOf(resultsArrayW.length()));
 						//lineBuild(_context); // call the build 
 						_history.put("WeatherSave", results.toString());
-						SaveStuff.storeObjectFile(_context, "saveDataObj", _history, false);  // save local as JSON obj string
+						_SaveStuff.storeObjectFile(_context, "saveDataObj", _history, false);  // save local as JSON obj string
 						//SaveStuff.storeStringFile(_context, "saveDataString", results.toString(), false);
 					}
 				}catch (JSONException e){
 					Log.i("TEST","myHandler - error");
 					Log.e("JSON ERROR", "JSON ERROR");
 				}
-				Log.i("HANDLER TEST", "HANDLER WORKS");
+				//Log.i("HANDLER TEST", "HANDLER WORKS");
 				popList();  // rePopulate ListView
 			}
 		}
@@ -304,7 +319,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 		i.putExtra("theZip", ZIPitem);  // add zip code to messenger
 		i.putExtra("daysL", forecastLength);  //Pull forecast Length and add to messenger
 		i.putExtra("MSNGR", messenger);  // attach Messenger Handler
-			Log.i("TEST", "getTheWeatherNOW");
+		//	Log.i("TEST", "getTheWeatherNOW");
 		startService(i);  //Start intent Service
 		
 	} // End getTheWeatherNOW
@@ -319,6 +334,13 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 	public ContentResolver getContentResolver() {
 		// TODO Auto-generated method stub
 		return super.getContentResolver();
+	}
+
+
+	@Override
+	public void onClickCell() {
+		
+		
 	}
 	
 }// END MAIN

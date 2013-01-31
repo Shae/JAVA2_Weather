@@ -1,8 +1,6 @@
 package com.klusman.java2;
 
 
-import java.net.URLEncoder;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -13,9 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class customCellAdapter extends BaseAdapter {
@@ -52,7 +48,7 @@ public class customCellAdapter extends BaseAdapter {
 	        TextView Title;
 	        TextView Weather;
 	        TextView Wind;
-	        Log.i("LISTVIEW", "Checking Position" + position);
+	        //Log.i("LISTVIEW", "Checking Position" + position);
 	        
 	        
 	        
@@ -77,7 +73,7 @@ public class customCellAdapter extends BaseAdapter {
 	                	Weather.setText("High: " + item.getString("tempMaxF") + "   Low: " + item.getString("tempMinF"));
 	                	Wind.setText("Windspeed:  " + item.getString("windspeedMiles"));
 	                	String picLink = item.getJSONArray("weatherIconUrl").getJSONObject(0).getString("value");
-	                	Log.i("PICLINK", picLink);
+	                	//Log.i("PICLINK", picLink);
 	                	myImage.setImageUrl(picLink);  //Test image  "weatherIconUrl"
 	                }
 	            }else{

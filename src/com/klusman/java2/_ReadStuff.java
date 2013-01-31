@@ -10,7 +10,7 @@ import java.io.ObjectInputStream;
 import android.content.Context;
 import android.util.Log;
 
-public class ReadStuff {
+public class _ReadStuff {
 	public static Object readStringFile(Context context, String filename, Boolean external){
 		String content = "";
 		

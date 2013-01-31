@@ -3,7 +3,6 @@ package com.klusman.java2;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -52,7 +51,7 @@ public class NewForecast extends Activity{
 		        choice = radioButton.getText().toString();
 		        choiceInt = selectedId;
 		        
-		        Log.i("Selected RadioBTN", choice);
+		       // Log.i("Selected RadioBTN", choice);
 		        
 				Intent next = new Intent(NewForecast.this, ZipSet.class);
 				next.putExtra("ForecastLength", forecastLengthPull());  // Pass Forecast Radio Selection
@@ -84,7 +83,7 @@ public String forecastLengthPull(){  // Get length for API Pull
 			days = "5";
 		} 
 
-		Log.i("NEW FORECAST DAYS", days);
+		//Log.i("NEW FORECAST DAYS", days);
 		return days;
 		
 	}
