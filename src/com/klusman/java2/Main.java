@@ -66,7 +66,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 		CharSequence textIN = text;
 		int duration = Toast.LENGTH_SHORT;
 		Toast toast = Toast.makeText(Main.this, textIN, duration);
-		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.setGravity(Gravity.BOTTOM, 0, 0);
 		toast.show();
 	};// end myToast
 	
@@ -141,7 +141,10 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	/*
+		
+		/*  
+		 * // used for populating, testing and deleting databases //
+		 * 
 		SQLiteDatabase db = openOrCreateDatabase("ZipcodeTEST", MODE_PRIVATE, null);
 		db.execSQL("CREATE TABLE IF NOT EXISTS ZipTESTs (id integer primary key autoincrement, zip VARCHAR NOT NULL);");  //id interger primary key autoincrement, 
 		db.execSQL("INSERT INTO ZipTESTS (zip) VALUES ('99999');");//"INSERT INTO Zipcodes (zipcode) VALUES ('99999');"
@@ -153,15 +156,21 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 		Log.d("results", c.getString(c.getColumnIndex("zip")));
 		db.close();
 		*/
-		_context.deleteDatabase("ZipcodeDB");
+		//_context.deleteDatabase("ZipcodeDB");
 		
 		_history = getStoredHist();
 		setContentView(R.layout.main_act);
 		connected = com.klusman.java2.webStuff.getConnectionStatus(this);
 		checkConnection();
 		testViewData();  // Test for Bundles and update data if any
-		findZip();
-		getTheWeatherNOW();
+		if(connected == true){
+			findZip();
+			getTheWeatherNOW();
+		}else{
+			myToast("NO INTERNET CONNECTION AVAILABLE");
+			myToast("This app requires a connection to populate new data");
+		}
+		
 		
 
 	} // end onCreate
@@ -218,7 +227,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 		customCellAdapter lView;
 		
 		if(resultsArrayW != null){
-			//Log.i("POPList", "resultsArray HAS DATA");
+			
 			lView = new customCellAdapter(_context, resultsArrayW);
 			listView.setAdapter(lView);
 		}else{
@@ -227,7 +236,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 			try {
 				String st = _history.get("WeatherSave");  // Pull Saved data
 				JSONObject js = new JSONObject(st);  //  Build as JSON OBJ
-				//Log.i("JSON OBJECT", "WORKED!");
+				
 				resultsArrayW = js.getJSONArray("weather");  // Pull an Array from JSON
 				
 			} catch (JSONException e) {
@@ -263,39 +272,38 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 	private Handler myHandler = new Handler(){
 		
 		public void handleMessage(Message message){
-			//Log.i("TEST","myHandler - envoke");
+			
 			Object result = message.obj;
 			if (message.arg1 == 0 && result != null){  // had to make arg1 a ZERO instead of RESULT_OK - not sure why
 				String resultString = (String) message.obj.toString();
-				//Log.i("TEST","myHandler - IF has data and ok");
+				
 				try{
-					//Log.i("TEST","myHandler - try to make JSON obj");
+				
 					JSONObject json = new JSONObject(resultString);
 					JSONObject results = json.getJSONObject("data");
 					resultsArrayW = results.getJSONArray("weather");
 					int arrayLength = resultsArrayW.length();
 
 					if(resultsArrayW == null){
-						//Log.i("TEST","myHandler - IF - null");
-						//Log.i("JSON GET OBJ", "NOT VALID");
+						
 						Toast toast = Toast.makeText(_context, "GET JSON FAILED", Toast.LENGTH_SHORT);
 						toast.show();
 
 					}else{
-						//Log.i("TEST","myHandler - ELSE - has data");
+						
 						Toast toast = Toast.makeText(_context, String.valueOf(arrayLength) + " day(s) requested data received!", Toast.LENGTH_SHORT);
 						toast.show();
 						//Log.i("Weather Array Length", String.valueOf(resultsArrayW.length()));
-						//lineBuild(_context); // call the build 
+						
 						_history.put("WeatherSave", results.toString());
 						_SaveStuff.storeObjectFile(_context, "saveDataObj", _history, false);  // save local as JSON obj string
-						//SaveStuff.storeStringFile(_context, "saveDataString", results.toString(), false);
+						
 					}
 				}catch (JSONException e){
 					Log.i("TEST","myHandler - error");
 					Log.e("JSON ERROR", "JSON ERROR");
 				}
-				//Log.i("HANDLER TEST", "HANDLER WORKS");
+				
 				popList();  // rePopulate ListView
 			}
 		}

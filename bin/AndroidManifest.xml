@@ -56,9 +56,9 @@
         <activity android:name=".ZipSet"/>
         
 <!-- PROVIDER -->
-        <!-- <provider android:name="ZipContentProvider"
-			android:authorities="com.klusman.java2.ZipContent"
-			android:exported="false" /> -->
+        <provider android:name="zipContentProvider"
+			android:authorities="com.klusman.java2.zipContentProvider"
+			android:exported="false" /> 
         
     </application>
 
