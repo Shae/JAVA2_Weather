@@ -20,6 +20,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 
 import android.content.ContentResolver;
@@ -37,7 +38,7 @@ import android.widget.Toast;
 
 
 
-public class Main extends Activity implements ButtonFrag.FormListener, ListViewFragListener{
+@SuppressLint("HandlerLeak") public class Main extends Activity implements ButtonFrag.FormListener, ListViewFragListener{
 
 	String forecastLength = "5";  // Holds the forecast Length String (default 5)
 	String zipLocation;  //  Holds a passed in zip code Location
@@ -118,11 +119,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 	
 	
 //// SERVICE Starters & Stoppers
-	public void runUpdaterService(){  //  to Run the "UpdaterService" Service
-		Intent intent = new Intent(this, UpdaterService.class);
-		startService(intent);
-		
-	}
+	
 	
 	public void runServiceAction(){  // to run the "ServiceAction" Service
 		Intent intent = new Intent(this, ServiceAction.class);
@@ -269,7 +266,7 @@ public class Main extends Activity implements ButtonFrag.FormListener, ListViewF
 ////////STEP 4  -  Receive message data from Service and decode ////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	private Handler myHandler = new Handler(){
+	@SuppressLint("HandlerLeak") private Handler myHandler = new Handler(){
 		
 		public void handleMessage(Message message){
 			

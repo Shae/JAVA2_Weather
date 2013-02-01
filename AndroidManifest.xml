@@ -45,7 +45,6 @@
 		</receiver>
         
 <!--  SERVICEs -->
-        <service android:name="UpdaterService"/>
         <service android:name="ServiceAction"/> 
         <service android:enabled="true" android:name="com.klusman.java2.GetForecast" />
 
