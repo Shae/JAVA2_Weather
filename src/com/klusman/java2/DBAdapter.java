@@ -62,23 +62,19 @@ public class DBAdapter  {
 		return mCursor;
 	}  //  END getRecord
 	
-	
-	
-	
-//	public Cursor compareRecord(String zip) throws SQLException{
-//		Cursor mCursor = 
-//				db.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_ZIPCODE}, KEY_ZIPCODE + "=" + zip, null, null, null, null, null);
-//		if (mCursor != null){
-//			mCursor.moveToFirst();
-//		}
-//		return mCursor;
-//	}  //  END getRecord
-	
-	
-	
+
 	
 	public Cursor getAllRecords(){
-		return db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_ZIPCODE}, null, null, null, null, null);
+		Log.i("getAllRecords", "Step 1");
+		Cursor c = db.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_ZIPCODE}, null, null, null, null, null);
+		Log.i("getAllRecords", "Step 2");
+		if(c!=null && c.getCount()>0){
+			Log.i("getAllRecords", "Data sent");
+			c.moveToFirst();
+		}else{
+			Log.i("getAllRecords", "EMPTY");
+		}
+		return c;
 	}  // END getAllRecords
 	
 	
@@ -97,7 +93,7 @@ public class DBAdapter  {
 */
 	    
 	    Cursor cursor = db.query(DATABASE_TABLE, null, "zipcode=?", new String[] {zip}  , null, null, null);
-	    //Cursor cursor = db.query(DATABASE_TABLE, new String[] { KEY_ROWID,}, KEY_ZIPCODE + "=?",new String[] { str }, null, null, null, null);
+	  
 	    if ((cursor != null) && (cursor.getCount() > 0)) {
 	        cursor.moveToFirst();
 	        res = true;
